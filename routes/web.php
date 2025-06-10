@@ -1,27 +1,33 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// 🏠 Page d’accueil
-Route::get('/', fn() => redirect()->route('blog.index'));
+Route::get('/', function () {
+    $name = "test";
+    return view('blog.index', compact('name'));
+})->name('blog');
 
-// 📚 Page article Wikipédia
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::resource('articles', PostController::class)->except(['show']);
 Route::get('/article', function () {
-    $response = Http::get('https://fr.wikipedia.org/api/rest_v1/page/summary/Endométriose');
-    $wiki = $response->successful() ? [
-        'title' => $response['title'],
-        'extract' => $response['extract'],
-        'url' => $response['content_urls']['desktop']['page'],
-    ] : null;
-    return view('blog.article.article', compact('wiki'));
+
+    return view('blog.articles.index', compact('posts'));
 })->name('article');
 
-// 🧾 Pages légales
-Route::view('/cgu', 'legal.cgu')->name('cgu');
-Route::view('/confidentialite', 'legal.confidentialite')->name('confidentialite');
-Route::view('/mentions-legales', 'legal.mentions')->name('mentions');
+Route::get('/temoignage', function () {
+    return view('');
+})->name('temoignage');
 
-// 🧩 Inclusion des autres groupes de routes
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 require __DIR__ . '/auth.php';
-require __DIR__ . '/blog.php';
-require __DIR__ . '/temoignages.php';

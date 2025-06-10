@@ -10,7 +10,7 @@ Route::prefix('temoignages')->name('temoignages.')->group(function () {
     // 🗂️ Page des témoignages paginés
     Route::get('/', function () {
         $posts = PostTemoignage::latest()->paginate(6);
-        return view('blog.temoignages.temoignages', compact('posts'));
+        return view('temoignages', compact('posts'));
     })->name('index');
 
     // ➕ Création d’un témoignage (formulaire)

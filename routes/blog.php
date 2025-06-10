@@ -23,7 +23,7 @@ Route::prefix('blog')->name('blog.')->group(function () {
 
         $stat = $stats[array_rand($stats)];
 
-        return view('blog.index', compact('posts', 'stat'));
+        return view('index', compact('posts', 'stat'));
     })->name('index');
 
     // // 🔍 Recherche
@@ -33,19 +33,22 @@ Route::prefix('blog')->name('blog.')->group(function () {
     Route::resource('articles', PostController::class)->except(['show']);
 
     // 📄 Affichage d’un article
-    Route::get('/{slug}--{id}', function ($slug, $id) {
-        $post = Post::findOrFail($id);
-
-        $response = Http::get('https://api.unsplash.com/photos/random', [
-            'query' => 'endometriosis',
-            'client_id' => env('UNSPLASH_ACCESS_KEY'),
-            'orientation' => 'landscape',
-        ]);
-
-        $image = $response->successful() ? $response['urls']['regular'] : null;
-
-        return view('blog.articles.show', compact('post', 'image'));
-    })
-        ->where(['slug' => '[a-z0-9\-]+', 'id' => '[0-9]+'])
-        ->name('show');
+    Route::get('/article/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
+
+
+// //     Route::get('/{slug}--{id}', function ($slug, $id) {
+//         $post = Post::findOrFail($id);
+
+//         $response = Http::get('https://api.unsplash.com/photos/random', [
+//             'query' => 'endometriosis',
+//             'client_id' => env('UNSPLASH_ACCESS_KEY'),
+//             'orientation' => 'landscape',
+//         ]);
+
+//         $image = $response->successful() ? $response['urls']['regular'] : null;
+
+//         return view('blog.articles.show', compact('post', 'image'));
+//     })
+//         ->where(['slug' => '[a-z0-9\-]+', 'id' => '[0-9]+'])
+//         ->name('show');
