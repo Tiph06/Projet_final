@@ -11,7 +11,7 @@ Route::prefix('temoignages')->name('temoignages.')->group(function () {
     // 🗂️ Page des témoignages paginés
     Route::get('/', [PostTemoignageController::class, 'index'])
         // ->middleware(['auth'])
-        ->name('temoignages.index'); // ✅ accessible à tous
+        ->name('temoignages'); // ✅ accessible à tous
     // Note: Si vous souhaitez restreindre l'accès, décommentez la ligne middleware ci-dessus.
 
     // ➕ Création d’un témoignage (formulaire)
