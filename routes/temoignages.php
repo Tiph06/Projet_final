@@ -3,19 +3,21 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostTemoignageController;
 use App\Models\PostTemoignage;
+use Illuminate\Support\Facades\Auth;
 
 // 📢 Routes pour les témoignages
 Route::prefix('temoignages')->name('temoignages.')->group(function () {
 
     // 🗂️ Page des témoignages paginés
-    Route::get('/', function () {
-        $posts = PostTemoignage::latest()->paginate(6);
-        return view('temoignages', compact('posts'));
-    })->name('index');
+    Route::get('/', [PostTemoignageController::class, 'index'])
+        // ->middleware(['auth'])
+        ->name('temoignages.index'); // ✅ accessible à tous
+    // Note: Si vous souhaitez restreindre l'accès, décommentez la ligne middleware ci-dessus.
 
     // ➕ Création d’un témoignage (formulaire)
     Route::get('/create', function () {
-        if (!auth()->check()) {
+        if (!Auth::check()) { // Si l'utilisateur n'est pas connecté
+            // Redirige vers la page de connexion avec un message d'erreur
             session(['url.intended' => url()->current()]);
             return redirect()->route('login')->with('error', 'Veuillez vous connecter pour publier un témoignage.');
         }

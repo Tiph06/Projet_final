@@ -6,7 +6,7 @@
 
     <div class="w-full max-w-7xl mx-auto px-4 flex items-center justify-between">
         <div class="flex items-center space-x-2">
-            <img src="{{ asset('images/LogoRubanBig.png') }}" alt="Logo Info-Endo" class="h-10">
+            <x-application-logo class="w-5 h-5" />
             <h1 class="text-2xl font-bold text-pink-900">Info-Endo</h1>
         </div>
 

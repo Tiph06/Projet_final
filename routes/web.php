@@ -9,14 +9,14 @@ Route::get('/', function () {
     return view('blog.index', compact('name'));
 })->name('blog');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [ProfileController::class, 'edit'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // Route::resource('articles', PostController::class)->except(['show']);
 Route::get('/article', function () {
 
-    return view('blog.articles.index', compact('posts'));
+    return view('blog.articles', compact('posts'));
 })->name('article');
 
 Route::get('/temoignage', function () {
@@ -31,3 +31,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/temoignages.php';
+require __DIR__ . '/blog.php';

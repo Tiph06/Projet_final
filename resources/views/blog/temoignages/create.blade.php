@@ -32,6 +32,11 @@
                 <span class="ml-2 text-gray-700">Je souhaite rester anonyme</span>
             </label>
         </div>
+        <div class="mt-4" id="auteurField">
+            <label for="auteur" class="block text-sm text-gray-700">Nom ou pseudo</label>
+            <input type="text" name="auteur" id="auteur" class="mt-1 block w-full rounded border-gray-300 shadow-sm"
+                placeholder="Ex : Marie93" />
+        </div>
 
         <!-- Bouton -->
         <div class="text-right">
@@ -41,4 +46,17 @@
         </div>
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkbox = document.querySelector('input[name="anonyme"]');
+        const auteurField = document.getElementById('auteurField');
+
+        function toggleAuteur() {
+            auteurField.style.display = checkbox.checked ? 'none' : 'block';
+        }
+
+        checkbox.addEventListener('change', toggleAuteur);
+        toggleAuteur(); // au chargement
+    });
+</script>
 @endsection

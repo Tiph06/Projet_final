@@ -5,7 +5,13 @@
 @section('content')
 <h2 class="text-2xl font-bold mb-6 text-pink-700">Témoignages 💬</h2>
 
+
 <p class="mb-4 text-gray-700">Des personnes partagent ici leur vécu face à l’endométriose.</p>
+@if(session('success'))
+<div class="bg-green-100 border border-green-400 text-green-800 px-4 py-2 rounded mb-4 w-fit mx-auto">
+    {{ session('success') }}
+</div>
+@endif
 
 <!-- Filtres -->
 <div class="mb-6 flex flex-wrap gap-2">
@@ -15,7 +21,7 @@
 </div>
 
 <div id="temoignages-list" class="space-y-6">
-    @foreach ($posts as $post)
+    @foreach ($temoignages as $categorie => $post)
     <div class="bg-white p-4 rounded shadow" data-category="{{ $post->categorie }}">
         <span class="text-sm font-semibold text-pink-600 uppercase block mb-1">
             {{ $post->categorie === 'Diagnostique' ? '🩺 Diagnostique' : '🔥 Symptômes' }}
@@ -47,9 +53,7 @@
         </button>
     </a>
 </div>
-<div class="mt-6 flex justify-center">
-    {{ $posts->links() }}
-</div>
+
 
 </div>
 <!-- Modale invisible -->
