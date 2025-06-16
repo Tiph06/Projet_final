@@ -1,0 +1,89 @@
+index.blade.php (graphique a ajouter):
+
+
+@extends('layouts.app')
+
+@section('content')
+<div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold text-center mb-8 text-fuchsia-700">Bienvenue sur Info-Endo</h1>
+
+    <!-- 🧁 GRAPHIQUE DONUT -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Répartition des cas</h2>
+        <canvas id="donutChart" class="w-full max-w-md mx-auto"></canvas>
+    </div>
+
+    <!-- 🍫 GRAPHIQUE BARRES -->
+    <div class="bg-white rounded-2xl shadow p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Statistiques mensuelles</h2>
+        <canvas id="barChart" class="w-full max-w-2xl mx-auto"></canvas>
+    </div>
+
+    <!-- 🗺️ CARTE INTERACTIVE -->
+    <div class="bg-white rounded-2xl shadow p-6">
+        <h2 class="text-xl font-semibold mb-4 text-gray-700">Carte des centres spécialisés</h2>
+        <div id="map" class="h-96 w-full rounded-xl"></div>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const donutCtx = document.getElementById('donutChart').getContext('2d');
+        new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Diagnostiquées', 'Non diagnostiquées'],
+                datasets: [{
+                    data: [65, 35],
+                    backgroundColor: ['#f472b6', '#e9d5ff'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Fév', 'Mars', 'Avr', 'Mai'],
+                datasets: [{
+                    label: 'Témoignages',
+                    data: [12, 19, 8, 15, 10],
+                    backgroundColor: '#c084fc'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([48.8566, 2.3522], 6); // Coordonnées par défaut: Paris
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.marker([48.8566, 2.3522]).addTo(map)
+            .bindPopup('Centre Parisien Spécialisé')
+            .openPopup();
+    </script>
+@endpush

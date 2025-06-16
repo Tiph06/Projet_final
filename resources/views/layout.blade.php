@@ -1,18 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
     <title>@yield('title', 'Info-Endo')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite([
-    'resources/css/app.css',
-    'resources/js/app.js',
-    'resources/js/pages/index-page.js'
-    ])
     <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
     <link rel="icon" type="image/png" href="{{ asset('images/LogoRubanSmall.png') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         .leaflet-top {
@@ -21,6 +17,10 @@
 
         }
     </style>
+    @vite([
+    'resources/js/app.js',
+    'resources/css/app.css',
+    ])
 
 </head>
 
@@ -62,6 +62,7 @@
         });
     </script>
 
+    @stack('scripts')
 </body>
 
 </html>
