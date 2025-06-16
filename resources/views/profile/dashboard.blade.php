@@ -1,4 +1,6 @@
-<x-app-layout>
+@extends('layout')
+
+<div>
     <x-slot name="header">
         <h2 class="text-xl font-semibold text-gray-800">📊 Tableau de bord</h2>
     </x-slot>
@@ -17,4 +19,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</div>

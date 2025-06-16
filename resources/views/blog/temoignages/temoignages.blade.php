@@ -21,17 +21,19 @@
 </div>
 
 <div id="temoignages-list" class="space-y-6">
-    @foreach ($temoignages as $categorie => $post)
+    @foreach ($temoignages as $categorie => $groupe)
+    @foreach ($groupe as $post)
     <div class="bg-white p-4 rounded shadow" data-category="{{ $post->categorie }}">
         <span class="text-sm font-semibold text-pink-600 uppercase block mb-1">
             {{ $post->categorie === 'Diagnostique' ? '🩺 Diagnostique' : '🔥 Symptômes' }}
         </span>
+
         <p class="text-sm text-gray-500 italic mb-1">Posté par : {{ $post->auteur }}</p>
 
         <p class="text-gray-800">
-            {{ Str::limit($post->contenu, 150) }}
+            {{ Str::limit($post->content, 150) }}
             <span class="text-pink-600 font-medium cursor-pointer hover:underline"
-                onclick="openModal(`{{ e($post->contenu) }}`)">
+                onclick="openModal(`{{ e($post->content) }}`)">
                 Lire la suite
             </span>
         </p>
@@ -42,6 +44,8 @@
         </form>
     </div>
     @endforeach
+    @endforeach
+
 </div>
 
 

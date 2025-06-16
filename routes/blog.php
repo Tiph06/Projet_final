@@ -23,7 +23,7 @@ Route::prefix('blog')->name('blog.')->group(function () {
 
         $stat = $stats[array_rand($stats)];
 
-        return view('index', compact('posts', 'stat'));
+        return view('index', compact('posts', 'stats'));
     })->name('index');
 
     // // 🔍 Recherche

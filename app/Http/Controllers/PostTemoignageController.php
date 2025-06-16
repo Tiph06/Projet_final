@@ -25,10 +25,11 @@ class PostTemoignageController extends Controller
     // 💾 Enregistrement du témoignage
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'categorie' => 'required|string',
             'content' => 'required|string|min:10',
-            'auteur' => 'nullable|string|max:255',
+            'auteur' => 'nullable|string|max:30',
         ]);
 
         // Si l'utilisateur a coché "anonyme", on ne prend pas en compte le champ 'auteur'

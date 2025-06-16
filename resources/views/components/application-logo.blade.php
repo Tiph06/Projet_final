@@ -1,1 +1,1 @@
-<img src="{{ asset('images/ruban.png') }}" alt="Info-Endo Logo" class="w-20 h-20 mx-auto">
+<img src="{{ asset('images/ruban.png') }}" alt="Info-Endo Logo" class="w-10 h-10 mx-auto">
