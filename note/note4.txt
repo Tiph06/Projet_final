@@ -1,0 +1,144 @@
+<!-- 🧁 Sélecteur de graphique interactif -->
+<section class="px-6 py-6">
+    <div class="bg-white p-4 rounded shadow my-3">
+        <h3 class="font-bold mb-4">Explorer les chiffres</h3>
+
+        <div class="flex gap-2 mb-4 flex-wrap">
+            <button data-chart-type="regions"
+                class="px-4 py-2 rounded-full text-white font-semibold shadow"
+                style="background-color: #f472b6;"
+                onmouseover="this.style.backgroundColor='#ec4899'"
+                onmouseout="this.style.backgroundColor='#f472b6'">
+                🌍 Par régions
+            </button>
+
+            <button data-chart-type="formes"
+                class="px-4 py-2 rounded-full text-white font-semibold shadow bg-yellow-400 hover:bg-yellow-500 transition duration-300 ease-in-out hover:scale-105">
+                🩺 Formes
+            </button>
+
+            <button data-chart-type="ages"
+                class="px-4 py-2 rounded-full text-white font-semibold shadow"
+                style="background-color: #5ba3c1;"
+                onmouseover="this.style.backgroundColor='#4994b7'"
+                onmouseout="this.style.backgroundColor='#5ba3c1'">
+                🎂 Tranches d’âge
+            </button>
+        </div>
+
+        <canvas id="interactiveChart" class="w-full h-80"></canvas>
+    </div>
+</section>
+
+
+
+        <div class="bg-white p-4 rounded shadow">
+            <h3 class="font-bold mb-2">Problèmes de fertilité</h3>
+            <canvas id="chart3" class="w-full h-64"></canvas>
+        </div>
+
+
+
+
+
+@push('scripts')
+<script>
+    if (typeof Chart !== 'undefined') {
+        const statsCanvas = document.getElementById('statsChart');
+        if (statsCanvas) {
+            new Chart(statsCanvas.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['1 femme sur 10', '7 ans retard', '190M dans le monde'],
+                    datasets: [{
+                        data: [10, 7, 190],
+                        backgroundColor: ['#f472b6', '#fb923c', '#5ba3c1']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#374151',
+                                font: {
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        const interCanvas = document.getElementById('interactiveChart');
+        const ctx = interCanvas.getContext('2d');
+        let currentChart;
+
+        const datasets = {
+            regions: {
+                labels: ['Nord', 'Sud', 'Est', 'Ouest'],
+                data: [35, 25, 20, 20],
+            },
+            formes: {
+                labels: ['Péritonéale', 'Ovarienne', 'Profonde'],
+                data: [40, 35, 25],
+            },
+            ages: {
+                labels: ['15-25 ans', '26-35 ans', '36-45 ans'],
+                data: [30, 50, 20],
+            }
+        };
+
+        function updateChart(type) {
+            const dataset = datasets[type];
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dataset.labels,
+                    datasets: [{
+                        label: 'Répartition',
+                        data: dataset.data,
+                        backgroundColor: ['#f472b6', '#facc15', '#60a5fa', '#a78bfa']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Init par défaut
+        updateChart('regions');
+
+        document.querySelectorAll('[data-chart-type]').forEach(button => {
+            button.addEventListener('click', () => {
+                updateChart(button.dataset.chartType);
+            });
+        });
+    } else {
+        console.warn('Chart.js non chargé 🤔');
+    }
+</script>
+
+<script>
+    const map = L.map('map').setView([48.8566, 2.3522], 6);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([48.8566, 2.3522]).addTo(map)
+        .bindPopup('Centre Parisien Spécialisé')
+        .openPopup();
+</script>
+@endpush

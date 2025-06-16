@@ -6,12 +6,12 @@ use App\Models\PostTemoignage;
 use Illuminate\Support\Facades\Auth;
 
 // 📢 Routes pour les témoignages
-Route::prefix('temoignages')->name('temoignages.')->group(function () {
+Route::prefix('temoignage')->name('temoignages.')->group(function () {
 
     // 🗂️ Page des témoignages paginés
     Route::get('/', [PostTemoignageController::class, 'index'])
         // ->middleware(['auth'])
-        ->name('temoignages'); // ✅ accessible à tous
+        ->name('index'); // ✅ accessible à tous
     // Note: Si vous souhaitez restreindre l'accès, décommentez la ligne middleware ci-dessus.
 
     // ➕ Création d’un témoignage (formulaire)

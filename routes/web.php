@@ -16,12 +16,12 @@ Route::get('/dashboard', [ProfileController::class, 'edit'])
 // Route::resource('articles', PostController::class)->except(['show']);
 Route::get('/article', function () {
 
-    return view('blog.articles', compact('posts'));
+    return view('blog.articles.article');
 })->name('article');
 
-Route::get('/temoignage', function () {
-    return view('');
-})->name('temoignage');
+// Route::get('/temoignage', function () {
+//     return view('');
+// })->name('temoignage');
 
 
 Route::middleware('auth')->group(function () {
