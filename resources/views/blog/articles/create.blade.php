@@ -1,62 +1,40 @@
 @extends('layout')
 
-@section('title', 'Articles – Info-Endo')
+@section('title', 'Nouvel Article – Info-Endo')
 
 @section('content')
-<h2 class="text-2xl font-bold mb-4 text-pink-700">🧠 Articles liés à l’endométriose</h2>
-<p class="mb-6 text-gray-700">Voici quelques extraits issus de Wikipédia pour enrichir vos connaissances médicales autour de l’endométriose.</p>
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold text-pink-700 mb-6">📝 Ajouter un nouvel article Info-Endo</h2>
 
-<!-- Spinner -->
-<div id="loading" class="flex justify-center items-center my-10">
-    <svg class="animate-spin h-10 w-10 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 100 16v-4l-3 3 3 3v-4a8 8 0 01-8-8z"></path>
-    </svg>
+    @if ($errors->any())
+    <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+        <ul class="list-disc pl-5">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    <form method="POST" action="{{ route('blog.articles.store') }}">
+        @csrf
+
+        <div class="mb-4">
+            <label for="title" class="block text-sm font-semibold text-gray-700">Titre</label>
+            <input type="text" name="title" id="title" value="{{ old('title') }}" required
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-200">
+        </div>
+
+        <div class="mb-6">
+            <label for="content" class="block text-sm font-semibold text-gray-700">Contenu</label>
+            <textarea name="content" id="content" rows="8" required
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-pink-500 focus:ring focus:ring-pink-200">{{ old('content') }}</textarea>
+        </div>
+
+        <button type="submit"
+            class="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded-lg shadow">
+            💾 Publier l'article
+        </button>
+    </form>
 </div>
-
-<!-- Conteneur des articles -->
-<div id="wiki-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-@endsection
-
-@section('scripts')
-<script>
-    const topics = [
-        "Endométriose",
-        "Adénomyose",
-        "Dysménorrhée",
-        "Douleur_pelvienne",
-        "Infertilité",
-        "Gynécologie",
-        "Santé_menstruelle"
-    ];
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        const container = document.getElementById('wiki-container');
-        const loader = document.getElementById('loading');
-
-        for (const topic of topics) {
-            try {
-                const response = await fetch(`https://fr.wikipedia.org/api/rest_v1/page/summary/${topic}`);
-                const data = await response.json();
-
-                const article = document.createElement('div');
-                article.className = 'bg-white p-4 rounded shadow';
-
-                article.innerHTML = `
-                    <h3 class="text-lg font-semibold text-pink-600 mb-2">${data.title}</h3>
-                    <p class="text-gray-700 mb-2">${data.extract}</p>
-                    <a href="${data.content_urls.desktop.page}" target="_blank" class="text-pink-600 underline">
-                        Lire plus sur Wikipédia →
-                    </a>
-                `;
-
-                container.appendChild(article);
-            } catch (error) {
-                console.error("Erreur lors du chargement de l'article :", topic, error);
-            }
-        }
-
-        loader.style.display = 'none';
-    });
-</script>
 @endsection

@@ -22,7 +22,7 @@
         <!-- Navigation links (desktop) -->
         <nav class="hidden md:flex items-center space-x-4">
             <a href="{{ route('blog') }}" class="text-pink-800 font-medium hover:underline">Accueil</a>
-            <a href="{{ route('article') }}" class="text-pink-800 font-medium hover:underline">Article</a>
+            <a href="{{ route('blog.article') }}" class="text-pink-800 font-medium hover:underline">Article</a>
             <a href="{{ route('temoignages.index') }}" class="text-pink-800 font-medium hover:underline">Témoignages</a>
 
             @auth
@@ -43,7 +43,7 @@
     <div class="md:hidden px-4 pt-2" x-show="open" x-transition>
         <nav class="flex flex-col space-y-2">
             <a href="{{ route('blog') }}" class="text-pink-800 font-medium hover:underline">Accueil</a>
-            <a href="{{ route('article') }}" class="text-pink-800 font-medium hover:underline">Article</a>
+            <a href="{{ route('blog.article') }}" class="text-pink-800 font-medium hover:underline">Article</a>
             <a href="{{ route('temoignages.index') }}" class="text-pink-800 font-medium hover:underline">Témoignages</a>
 
             @auth

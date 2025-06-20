@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchController;
+use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 
@@ -30,25 +31,17 @@ Route::prefix('blog')->name('blog.')->group(function () {
     // Route::get('/search', [SearchController::class, 'search'])->name('search');
 
     // 📝 CRUD des articles (sans show, qui a une URL custom)
-    Route::resource('articles', PostController::class)->except(['show']);
+    Route::middleware(['auth', EnsureUserIsAdmin::class])->group(function () {
+        Route::resource('articles', PostController::class)->except(['show']);
+        Route::post('/articles', [PostController::class, 'store'])->name('blog.articles.store');
+    });
+
+    // 🧠 Vue mixte : Articles Wikipédia + Articles créés
+    Route::get('/article', function () {
+        $customPosts = \App\Models\Post::latest()->get();
+        return view('blog.articles.article', compact('customPosts'));
+    })->name('article');
 
     // 📄 Affichage d’un article
     Route::get('/article/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
-
-
-// //     Route::get('/{slug}--{id}', function ($slug, $id) {
-//         $post = Post::findOrFail($id);
-
-//         $response = Http::get('https://api.unsplash.com/photos/random', [
-//             'query' => 'endometriosis',
-//             'client_id' => env('UNSPLASH_ACCESS_KEY'),
-//             'orientation' => 'landscape',
-//         ]);
-
-//         $image = $response->successful() ? $response['urls']['regular'] : null;
-
-//         return view('blog.articles.show', compact('post', 'image'));
-//     })
-//         ->where(['slug' => '[a-z0-9\-]+', 'id' => '[0-9]+'])
-//         ->name('show');

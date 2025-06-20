@@ -55,6 +55,7 @@ class PostController extends Controller
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
+        $validated['source'] = 'admin'; // facultatif mais utile si je mélanges avec des articles Wiki plus tard
 
         Post::create($validated);
 

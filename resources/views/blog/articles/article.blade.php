@@ -16,6 +16,17 @@
 
 <!-- Conteneur des articles -->
 <div id="wiki-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+
+@foreach ($customPosts as $post)
+<div class="bg-white p-4 rounded shadow">
+    <h3 class="text-lg font-semibold text-pink-700 mb-2">{{ $post->title }}</h3>
+    <p class="text-gray-700 mb-2">{{ \Illuminate\Support\Str::limit($post->content, 300) }}</p>
+    <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="text-pink-600 underline">
+        Lire l’article →
+    </a>
+</div>
+@endforeach
+
 @endsection
 
 @section('scripts')

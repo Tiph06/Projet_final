@@ -15,15 +15,21 @@
         </div>
 
         <!-- 2. Actions Rapides -->
-        <div class="bg-white rounded-xl shadow p-6">
-            <h3 class="text-lg font-semibold text-fuchsia-700 mb-4">⚡ Actions rapides</h3>
-            <div class="flex flex-wrap gap-4">
-                <a href="{{ route('blog.articles.create') }}" class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-4 py-2 rounded-lg shadow">+ Nouvel Article</a>
-                <a href="{{ route('temoignages.create') }}" class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg shadow">+ Nouveau Témoignage</a>
-                <a href="#" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg shadow">Articles en attente</a>
-                <a href="#" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow">Signalements</a>
-            </div>
+        @auth
+        @if (auth()->user()->is_admin)
+        <div class="flex flex-wrap gap-4">
+            <a href="{{ route('blog.articles.create') }}" class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-4 py-2 rounded-lg shadow">
+                ➕ Nouvel Article
+            </a>
+            <a href="#" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg shadow">
+                Articles en attente
+            </a>
+            <a href="#" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow">
+                Signalements
+            </a>
         </div>
+        @endif
+        @endauth
 
         <!-- 3. Feedback ou messages -->
         <div class="bg-white rounded-xl shadow p-6">
