@@ -6,7 +6,25 @@
 <h2 class="text-2xl font-bold mb-4 text-pink-700">🧠 Articles liés à l’endométriose</h2>
 <p class="mb-6 text-gray-700">Voici quelques extraits issus de Wikipédia pour enrichir vos connaissances médicales autour de l’endométriose.</p>
 
-<!-- Spinner -->
+<!-- Articles du blog -->
+@if(isset($posts) && $posts->count())
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    @foreach ($posts as $post)
+    <div class="bg-white p-4 rounded shadow">
+        <h3 class="text-lg font-semibold text-pink-700 mb-2">{{ $post->title }}</h3>
+        <p class="text-gray-700 mb-2">{{ \Illuminate\Support\Str::limit($post->content, 300) }}</p>
+        <a href="{{ route('blog.posts.show', ['slug' => $post->slug]) }}" class="text-pink-600 underline">
+            Lire l’article →
+        </a>
+    </div>
+    @endforeach
+</div>
+{{ $posts->links() }}
+@else
+<p class="text-gray-500 mb-8">Aucun article du blog pour le moment.</p>
+@endif
+
+<!-- Spinner pour les articles Wikipédia -->
 <div id="loading" class="flex justify-center items-center my-10">
     <svg class="animate-spin h-10 w-10 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -14,19 +32,8 @@
     </svg>
 </div>
 
-<!-- Conteneur des articles -->
+<!-- Conteneur des articles Wikipédia -->
 <div id="wiki-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
-
-@foreach ($customPosts as $post)
-<div class="bg-white p-4 rounded shadow">
-    <h3 class="text-lg font-semibold text-pink-700 mb-2">{{ $post->title }}</h3>
-    <p class="text-gray-700 mb-2">{{ \Illuminate\Support\Str::limit($post->content, 300) }}</p>
-    <a href="{{ route('posts.show', ['slug' => $post->slug]) }}" class="text-pink-600 underline">
-        Lire l’article →
-    </a>
-</div>
-@endforeach
-
 @endsection
 
 @section('scripts')

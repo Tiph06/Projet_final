@@ -7,7 +7,6 @@ use App\Http\Middleware\EnsureUserIsAdmin;
 use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 
-// 📌 Groupe de routes blog
 Route::prefix('blog')->name('blog.')->group(function () {
 
     // 🏠 Accueil du blog avec statistiques aléatoires
@@ -27,21 +26,23 @@ Route::prefix('blog')->name('blog.')->group(function () {
         return view('index', compact('posts', 'stats'));
     })->name('index');
 
-    // // 🔍 Recherche
+    // 🔍 Recherche (à activer si besoin)
     // Route::get('/search', [SearchController::class, 'search'])->name('search');
 
-    // 📝 CRUD des articles (sans show, qui a une URL custom)
+    // 📝 CRUD des articles - SAUF show qui est personnalisé
     Route::middleware(['auth', EnsureUserIsAdmin::class])->group(function () {
-        Route::resource('articles', PostController::class)->except(['show']);
-        Route::post('/articles', [PostController::class, 'store'])->name('blog.articles.store');
+        Route::resource('articles', PostController::class)
+            ->names('posts')
+            ->except(['show']); // Exclure show car tu la redéfinis
     });
+
+    // 📄 Affichage d'un article avec slug personnalisé
+    // ⚠️ Ici, le nom est juste 'posts.show' (le préfixe blog. sera ajouté automatiquement)
+    Route::get('/article/{slug}', [PostController::class, 'show'])->name('posts.show');
 
     // 🧠 Vue mixte : Articles Wikipédia + Articles créés
     Route::get('/article', function () {
-        $customPosts = \App\Models\Post::latest()->get();
-        return view('blog.articles.article', compact('customPosts'));
+        $posts = \App\Models\Post::latest()->get();
+        return view('blog.articles.article', compact('posts'));
     })->name('article');
-
-    // 📄 Affichage d’un article
-    Route::get('/article/{slug}', [PostController::class, 'show'])->name('posts.show');
 });

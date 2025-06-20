@@ -13,7 +13,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::latest()->paginate(6);
-        return view('blog.articles.index', compact('posts'));
+        return view('blog.articles.article', compact('posts'));
     }
 
     // ➕ Formulaire de création d'article
@@ -41,7 +41,7 @@ class PostController extends Controller
                 'content' => $data['extract'],
             ]);
 
-            return redirect()->route('posts.index')->with('success', 'Article Wikipédia ajouté !');
+            return redirect()->route('blog.posts.index')->with('success', 'Article Wikipédia ajouté !');
         }
         return redirect()->back()->with('error', 'Impossible de récupérer l’article.');
     }
@@ -54,17 +54,28 @@ class PostController extends Controller
             'content' => 'required|string|min:10',
         ]);
 
-        $validated['slug'] = Str::slug($validated['title']);
-        $validated['source'] = 'admin'; // facultatif mais utile si je mélanges avec des articles Wiki plus tard
 
-        Post::create($validated);
+        $slug = Str::slug($validated['title']);
+        $originalSlug = $slug;
+        $i = 1;
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $i;
+            $i++;
+        }
 
-        return redirect()->route('posts.index')->with('success', 'Article ajouté avec succès !');
+        Post::create([
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+            'slug' => $slug,
+        ]);
+
+        return redirect()->route('blog.posts.index')->with('success', 'Article ajouté avec succès !');
     }
 
     // 🔍 Voir un article
-    public function show(Post $post)
+    public function show($slug)
     {
+        $post = \App\Models\Post::where('slug', $slug)->firstOrFail();
         return view('blog.articles.show', compact('post'));
     }
 
@@ -84,13 +95,13 @@ class PostController extends Controller
 
         $post->update($validated);
 
-        return redirect()->route('posts.index')->with('success', 'Article modifié avec succès !');
+        return redirect()->route('blog.posts.index')->with('success', 'Article modifié avec succès !');
     }
 
     // ❌ Suppression
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('posts.index')->with('success', 'Article supprimé avec succès !');
+        return redirect()->route('blog.posts.index')->with('success', 'Article supprimé avec succès !');
     }
 }
