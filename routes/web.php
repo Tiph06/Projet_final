@@ -13,17 +13,6 @@ Route::get('/dashboard', [ProfileController::class, 'edit'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-// Route::resource('articles', PostController::class)->except(['show']);
-Route::get('/article', function () {
-
-    return view('blog.articles.article');
-})->name('article');
-
-// Route::get('/temoignage', function () {
-//     return view('');
-// })->name('temoignage');
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -32,4 +21,5 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/temoignages.php';
-require __DIR__ . '/blog.php';
+require __DIR__ . '/acceuil.php';
+require __DIR__ . '/article.php';

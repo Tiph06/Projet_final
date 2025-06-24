@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Http;
 Route::prefix('blog')->name('blog.')->group(function () {
 
     // 🏠 Accueil du blog avec statistiques aléatoires
+
+
+
     Route::get('/', function () {
         $posts = Post::latest()->get();
 
@@ -27,22 +30,5 @@ Route::prefix('blog')->name('blog.')->group(function () {
     })->name('index');
 
     // 🔍 Recherche (à activer si besoin)
-    // Route::get('/search', [SearchController::class, 'search'])->name('search');
-
-    // 📝 CRUD des articles - SAUF show qui est personnalisé
-    Route::middleware(['auth', EnsureUserIsAdmin::class])->group(function () {
-        Route::resource('articles', PostController::class)
-            ->names('posts')
-            ->except(['show']); // Exclure show car tu la redéfinis
-    });
-
-    // 📄 Affichage d'un article avec slug personnalisé
-    // ⚠️ Ici, le nom est juste 'posts.show' (le préfixe blog. sera ajouté automatiquement)
-    Route::get('/article/{slug}', [PostController::class, 'show'])->name('posts.show');
-
-    // 🧠 Vue mixte : Articles Wikipédia + Articles créés
-    Route::get('/article', function () {
-        $posts = \App\Models\Post::latest()->get();
-        return view('blog.articles.article', compact('posts'));
-    })->name('article');
+    // Route::get('/search', [SearchController::class, 'search'])->name('search');  
 });

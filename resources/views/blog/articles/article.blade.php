@@ -4,21 +4,25 @@
 
 @section('content')
 <h2 class="text-2xl font-bold mb-4 text-pink-700">🧠 Articles liés à l’endométriose</h2>
-<p class="mb-6 text-gray-700">Voici quelques extraits issus de Wikipédia pour enrichir vos connaissances médicales autour de l’endométriose.</p>
-
-<!-- Articles du blog -->
-@if(isset($posts) && $posts->count())
+<p class="text-lg mb-8 text-gray-700">
+    Découvrez des articles enrichissants sur l'endométriose, l'adénomyose et d'autres sujets connexes.
+    Ces ressources sont sélectionnées pour vous aider à mieux comprendre ces conditions et à trouver du soutien.
+    <!-- Articles du blog -->
+    @if(isset($posts) && $posts->count())
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
     @foreach ($posts as $post)
     <div class="bg-white p-4 rounded shadow">
         <h3 class="text-lg font-semibold text-pink-700 mb-2">{{ $post->title }}</h3>
         <p class="text-gray-700 mb-2">{{ \Illuminate\Support\Str::limit($post->content, 300) }}</p>
-        <a href="{{ route('blog.posts.show', ['slug' => $post->slug]) }}" class="text-pink-600 underline">
+        <a href="{{ route('posts.show', ['slug' => $post->slug, 'id' => $post->id]) }}" class="text-pink-600 underline">
             Lire l’article →
         </a>
     </div>
     @endforeach
 </div>
+
+<p class="text-lg mb-8 text-pink-700">Voici quelques articles proposés par Wikipédia pour enrichir vos connaissances.</p>
+
 {{ $posts->links() }}
 @else
 <p class="text-gray-500 mb-8">Aucun article du blog pour le moment.</p>

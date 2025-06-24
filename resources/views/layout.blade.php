@@ -6,7 +6,7 @@
     <title>@yield('title', 'Info-Endo')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
-    <link rel="icon" type="image/png" href="{{ asset('images/LogoRubanSmall.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/ruban.png') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
