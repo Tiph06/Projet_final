@@ -24,7 +24,7 @@
             <a href="{{ route('blog') }}" class="text-pink-800 font-medium hover:underline">Accueil</a>
             <a href="{{ route('blog.article') }}" class="text-pink-800 font-medium hover:underline">Article</a>
             <a href="{{ route('temoignages.index') }}" class="text-pink-800 font-medium hover:underline">Témoignages</a>
-            <a href="{{ route('suivis.index') }}" class="text-pink-800 font-medium hover:underline">Mes suivis</a>
+            <a href="{{ route('suivi.index') }}" class="text-pink-800 font-medium hover:underline">Mes suivis</a>
             @auth
             <a href="{{ route('logout') }}"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
@@ -45,7 +45,7 @@
             <a href="{{ route('blog') }}" class="text-pink-800 font-medium hover:underline">Accueil</a>
             <a href="{{ route('blog.article') }}" class="text-pink-800 font-medium hover:underline">Article</a>
             <a href="{{ route('temoignages.index') }}" class="text-pink-800 font-medium hover:underline">Témoignages</a>
-            <a href="{{ route('suivis.index') }}" class="text-pink-800 font-medium hover:underline">Mes suivis</a>
+            <a href="{{ route('suivi.index') }}" class="text-pink-800 font-medium hover:underline">Mes suivis</a>
 
             @auth
             <a href="{{ route('logout') }}"

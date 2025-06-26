@@ -10,7 +10,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Chemin vers lequel rediriger les utilisateurs après connexion.
      */
-    public const HOME = '/suivis'; // ou '/dashboard' si tu préfères
+    public const HOME = '/suivi'; // ou '/dashboard' si tu préfères
 
     /**
      * Définir les routes de l’application.

@@ -18,15 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // 📅 Liste des suivis (page de visualisation principale)
-    Route::get('/suivis', [SuiviController::class, 'index'])->name('suivis.index');
-
-
-    // ➕ Formulaire de création
-    Route::get('/suivis/create', [SuiviController::class, 'create'])->name('suivis.create');
-
-    // 💾 Enregistrement d’un suivi
-    Route::post('/suivis', [SuiviController::class, 'store'])->name('suivis.store');
+    // Redirection douce pour éviter les erreurs 404
+    Route::redirect('/suivis', '/suivi');
+    // 📌 Routes de suivi
+    Route::resource('suivis', SuiviController::class)->middleware(['auth']);
 });
 
 require __DIR__ . '/auth.php';
@@ -34,3 +29,4 @@ require __DIR__ . '/temoignages.php';
 require __DIR__ . '/acceuil.php';
 require __DIR__ . '/article.php';
 require __DIR__ . '/api.php';
+require __DIR__ . '/suivi.php';

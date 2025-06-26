@@ -1,5 +1,27 @@
-t<form action="{{ route('suivis.store') }}" method="POST" class="space-y-4">
+{{-- ✅ Message de succès --}}
+@if (session('success'))
+<div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+    {!! session('success') !!}
+</div>
+@endif
+
+{{-- 🚨 Affichage des erreurs de validation --}}
+@if ($errors->any())
+<div class="bg-red-100 text-red-800 p-4 rounded mb-4">
+    <ul class="list-disc pl-5">
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
+{{-- 📝 Formulaire de suivi --}}
+<form action="{{ route('suivi.store') }}" method="POST" class="space-y-4">
     @csrf
+
+    <x-input-label for="date" value="Date du suivi" />
+    <x-text-input id="date" name="date" type="date" :value="now()->toDateString()" required />
 
     <x-input-label for="etat" value="Comment vous sentez-vous aujourd’hui ?" />
     <x-text-input id="etat" name="etat" type="text" required />
