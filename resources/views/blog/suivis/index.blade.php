@@ -11,7 +11,9 @@
     </div>
     @endif
 
-    <h3 class="text-lg font-semibold text-gray-700 mb-2">Calendrier du mois</h3>
+    <h3 class="text-lg font-semibold text-gray-700 mb-2">
+        Calendrier du mois – {{ now()->translatedFormat('F Y') }}
+    </h3>
 
     <div class="grid grid-cols-7 gap-2 text-center text-sm text-gray-600 mb-8">
         @foreach(['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'] as $jour)
@@ -199,13 +201,52 @@
 
                 <!-- Localisation et intensité (si douleurs == oui) -->
                 <template x-if="douleur === '1'">
-                    <div>
-                        <div class="mb-3">
-                            <label for="localisation" class="block text-sm font-medium text-gray-700">Localisation</label>
-                            <input type="text" name="localisation" id="localisation" class="w-full border rounded px-3 py-2" />
+                    <div x-data="{ localisations: [], autre: false, autreTexte: '', val: intensite}">
+                        <!-- 🌸 Localisation multiple  -->
+                        <label class="block text-sm font-medium text-gray-700 mb-2 mt-2">Localisation(s)</label>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                            @foreach([
+                            'Bas-ventre ou région pelvienne',
+                            'Ovaires',
+                            'Trompes de Fallope',
+                            'Ligaments utéro-sacrés',
+                            'Rectum et intestin',
+                            'Vessie',
+                            'Vagin',
+                            'Cul-de-sac de Douglas'
+                            ] as $zone)
+                            <label class="cursor-pointer">
+                                <input type="checkbox" :value="'{{ $zone }}'" x-model="localisations" class="hidden peer">
+                                <div class="flex items-center justify-center px-3 py-2 text-sm bg-gray-100 rounded-lg text-center peer-checked:bg-fuchsia-100 peer-checked:ring-2 peer-checked:ring-fuchsia-500 transition">
+                                    {{ $zone }}
+                                </div>
+                            </label>
+                            @endforeach
+
+                            <!-- Option Autre -->
+                            <label class="cursor-pointer">
+                                <input type="checkbox" @click="autre = !autre" class="hidden peer">
+                                <div class="flex items-center justify-center px-3 py-2 text-sm bg-gray-100 rounded-lg peer-checked:bg-fuchsia-100 peer-checked:ring-2 peer-checked:ring-fuchsia-500 transition">
+                                    Autre
+                                </div>
+                            </label>
                         </div>
 
-                        <div class="mt-4" x-data="{ val: intensite }">
+                        <!-- Champ libre "Autre" -->
+                        <div class="mt-3" x-show="autre" x-transition>
+                            <input type="text" name="localisation" placeholder="Précisez ici..." x-model="localisation" class="w-full border rounded px-3 py-2" />
+                        </div>
+
+                        <!-- Champs cachés pour envoyer les données -->
+                        <template x-if="true">
+                            <div>
+                                <input type="hidden" name="localisation" :value="localisations.join(', ') + (autreTexte ? ', ' + autreTexte : '')">
+                            </div>
+                        </template>
+
+                        <!-- 🔥 Intensité -->
+                        <div class="mt-6">
                             <label for="intensite" class="block text-sm font-medium text-gray-700 mb-1">Intensité</label>
                             <input type="range" name="intensite" min="1" max="10" x-model="val" class="w-full accent-fuchsia-500">
                             <p class="text-sm text-center mt-1 text-fuchsia-600 font-semibold">Intensité : <span x-text="val"></span>/10</p>
@@ -213,7 +254,7 @@
                     </div>
                 </template>
 
-                <!-- Boutons -->
+                <!-- 🎯 Boutons -->
                 <div class="flex justify-end gap-2 mt-6">
                     <button type="button" @click="openForm = false"
                         class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">
