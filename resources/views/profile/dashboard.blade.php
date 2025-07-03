@@ -1,58 +1,67 @@
 @extends('layout')
 
-<div>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold text-gray-800">📊 Tableau de bord Administrateur</h2>
-    </x-slot>
+@section('content')
+<div class="py-10 px-6 bg-gray-100 min-h-screen">
 
-    <div class="py-10 px-6 bg-gray-100 min-h-screen space-y-12">
-        <!-- 1. Résumé Statistique -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <x-dashboard.card icon="👥" title="Utilisateurs" :value="$userCount" />
-            <x-dashboard.card icon="📝" title="Articles" :value="$postCount" />
-            <x-dashboard.card icon="💬" title="Témoignages" :value="$temoignageCount" />
-            <x-dashboard.card icon="📅" title="Activité Récente" :value="$lastActivity ?? 'Aucune'" />
-        </div>
+    <!-- ✅ TOAST de bienvenue -->
+    <div
+        x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 4000)"
+        x-show="show"
+        x-transition.duration.600ms
+        class="mb-4 px-4 py-3 rounded-lg bg-fuchsia-100 text-fuchsia-800 border border-fuchsia-300 shadow text-sm max-w-md mx-auto">
+        🎉 Contente de te revoir, {{ ucfirst(auth()->user()->name) }} !
+    </div>
 
-        <!-- 2. Actions Rapides -->
-        @auth
-        @if (auth()->user()->is_admin)
-        <div class="flex flex-wrap gap-4">
-            <a href="{{ route('blog.articles.create') }}" class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-4 py-2 rounded-lg shadow">
-                ➕ Nouvel Article
-            </a>
-            <a href="#" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg shadow">
-                Articles en attente
-            </a>
-            <a href="#" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow">
-                Signalements
+    @if(auth()->user()->is_admin)
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">📊 Tableau de bord Administrateur</h2>
+
+    <!-- Admin cards / outils -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <x-dashboard.card icon="👥" title="Utilisateurs" :value="$userCount" />
+        <x-dashboard.card icon="📝" title="Articles" :value="$postCount" />
+        <x-dashboard.card icon="💬" title="Témoignages" :value="$temoignageCount" />
+        <x-dashboard.card icon="📅" title="Activité Récente" :value="$lastActivity ?? 'Aucune'" />
+    </div>
+
+    @else
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        👋 Bienvenue {{ ucfirst(auth()->user()->name) }} sur ton tableau de bord
+    </h2>
+
+    <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">🩺 Vos derniers suivis</h3>
+
+        @if($suiviEtats->isEmpty())
+        <p class="text-gray-500 italic">Aucun suivi pour le moment.</p>
+        @else
+        <ul class="space-y-2">
+            @foreach($suiviEtats as $etat)
+            <li class="text-sm text-gray-700">
+                {{ $etat->created_at->format('d/m/Y') }} –
+                <span class="font-medium text-pink-600">{{ ucfirst($etat->etat) }}</span>
+                @if($etat->douleur)
+                – Intensité : <span class="text-red-500">{{ $etat->intensite }}</span>
+                @endif
+            </li>
+            @endforeach
+        </ul>
+
+        <div class="text-right mt-4">
+            <a href="{{ route('suivi.index') }}" class="text-fuchsia-600 hover:underline text-sm font-medium">
+                ➕ Voir tous mes suivis →
             </a>
         </div>
         @endif
-        @endauth
-
-        <!-- 3. Feedback ou messages -->
-        <div class="bg-white rounded-xl shadow p-6">
-            <h3 class="text-lg font-semibold text-gray-700 mb-4">📬 Derniers retours utilisateurs</h3>
-            <p class="text-gray-500 italic">Pas encore de messages. Créez un système de feedback pour améliorer le site !</p>
-        </div>
-
-        <!-- 4. Carte (placeholder) -->
-        <div class="bg-white rounded-xl shadow p-6">
-            <h3 class="text-lg font-semibold text-gray-700 mb-4">🗺️ Répartition géographique</h3>
-            <div class="bg-gray-200 h-64 rounded-lg flex items-center justify-center text-gray-600">
-                Carte Leaflet en construction...
-            </div>
-        </div>
-
-        <!-- 5. Bloc à Idées / TODO -->
-        <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-300">
-            <h4 class="text-lg font-bold text-yellow-800">📝 Bloc à idées</h4>
-            <ul class="list-disc list-inside text-yellow-700 mt-2">
-                <li>Ajouter un champ "tags" aux articles</li>
-                <li>Intégrer une API médicale (Wikipédia ou PubMed)</li>
-                <li>Refondre la page d'accueil avec plus de visuels</li>
-            </ul>
-        </div>
     </div>
+
+    <!-- ➕ Bouton flottant Ajouter un suivi -->
+    <a href="{{ route('suivi.index') }}"
+        title="Commencer un nouveau suivi"
+        class="fixed bottom-6 right-6 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold py-3 px-5 rounded-full shadow-lg transition transform hover:scale-105 hover:animate-bounce z-50 flex items-center gap-2">
+        <span class="text-xl">➕</span> Ajouter un suivi
+    </a>
+    @endif
+
 </div>
+@endsection

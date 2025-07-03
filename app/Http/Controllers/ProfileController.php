@@ -16,11 +16,22 @@ class ProfileController extends Controller
      */
     public function edit(Request $request)
     {
-        return view('profile.dashboard', [
-            'userCount' => \App\Models\User::all()->count(),
-            'postCount' => \App\Models\Post::all()->count(),
-            'temoignageCount' => \App\Models\PostTemoignage::all()->count(),
-        ]);
+        $user = $request->user();
+
+        $data = [
+            'userCount' => \App\Models\User::count(),
+            'postCount' => \App\Models\Post::count(),
+            'temoignageCount' => \App\Models\PostTemoignage::count(),
+        ];
+
+        if (!$user->is_admin) {
+            $data['suiviEtats'] = \App\Models\Suivi::where('user_id', $user->id)
+                ->latest()
+                ->take(5)
+                ->get();
+        }
+
+        return view('profile.dashboard', $data);
     }
 
 
