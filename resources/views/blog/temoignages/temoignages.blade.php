@@ -89,11 +89,16 @@
         }
     });
 
+    function normalizeText(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
     function filterCategory(category) {
         const items = document.querySelectorAll('#temoignages-list > div');
+        const selected = normalizeText(category);
+
         items.forEach(item => {
-            const itemCategory = item.dataset.category.toLowerCase();
-            const selected = category.toLowerCase();
+            const itemCategory = normalizeText(item.dataset.category);
             const show = selected === 'all' || itemCategory === selected;
             item.style.display = show ? 'block' : 'none';
         });
