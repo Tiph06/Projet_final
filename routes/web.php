@@ -3,11 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuiviController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    $name = "test";
-    return view('blog.index', compact('name'));
-})->name('blog');
+Route::get('/', [HomeController::class, 'index'])->name('blog');
 
 Route::get('/dashboard', [ProfileController::class, 'edit'])
     ->middleware(['auth', 'verified'])

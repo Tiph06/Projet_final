@@ -90,7 +90,7 @@
 <!-- 🗺️ Carte Leaflet -->
 <div class="bg-white rounded-2xl shadow p-6">
     <h2 class="text-xl font-semibold mb-4 text-gray-700">Centres spécialisés en France</h2>
-    <div id="map" class="h-96 w-full rounded-xl"></div>
+    <x-leaflet-map id="map-centres" :centres="$centres" height="h-96" />
 </div>
 </div>
 
@@ -228,15 +228,4 @@
     }
 </script>
 
-<script>
-    const map = L.map('map').setView([48.8566, 2.3522], 6);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    L.marker([48.8566, 2.3522]).addTo(map)
-        .bindPopup('Centre Parisien Spécialisé')
-        .openPopup();
-</script>
 @endpush
