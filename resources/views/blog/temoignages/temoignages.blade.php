@@ -21,8 +21,7 @@
 </div>
 
 <div id="temoignages-list" class="space-y-6">
-    @foreach ($temoignages as $categorie => $groupe)
-    @foreach ($groupe as $post)
+    @foreach ($temoignages as $post)
     <div class="bg-white p-4 rounded shadow" data-category="{{ $post->categorie }}">
         <span class="text-sm font-semibold text-pink-600 uppercase block mb-1">
             {{ $post->categorie === 'Diagnostique' ? '🩺 Diagnostique' : '🔥 Symptômes' }}
@@ -37,27 +36,31 @@
                 Lire la suite
             </span>
         </p>
-        <form action="{{ route('temoignages.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Supprimer ce témoignage ?');" class="inline-block ml-2">
+        <form action="{{ route('temoignages.destroy', $post->id) }}" method="POST"
+            onsubmit="return confirm('Supprimer ce témoignage ?');" class="inline-block ml-2">
             @csrf
             @method('DELETE')
             <button type="submit" class="text-red-500 hover:text-red-700">Supprimer</button>
         </form>
     </div>
     @endforeach
-    @endforeach
-
 </div>
 
+{{-- PAGINATION --}}
+
+<div class="mt-6 flex justify-center">
+    {{ $temoignages->links('vendor.pagination.tailwind') }}
+</div>
 
 {{-- Bouton pour écrire son propre témoignage --}}
-<div class="mt-8">*
+
+<div class="mt-8">
     <a href="{{ route('temoignages.create') }}">
         <button class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 shadow">
             ✍️ Partager mon témoignage
         </button>
     </a>
 </div>
-
 
 </div>
 <!-- Modale invisible -->
@@ -89,16 +92,18 @@
         }
     });
 
+    // ✅ Fonction pour normaliser les accents
     function normalizeText(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
+    // ✅ Filtrage qui fonctionne même avec accents
     function filterCategory(category) {
-        const items = document.querySelectorAll('#temoignages-list > div');
-        const selected = normalizeText(category);
+        const items = document.querySelectorAll('#temoignages-list [data-category]');
+        const selected = normalizeText(category.trim());
 
         items.forEach(item => {
-            const itemCategory = normalizeText(item.dataset.category);
+            const itemCategory = normalizeText(item.dataset.category.trim());
             const show = selected === 'all' || itemCategory === selected;
             item.style.display = show ? 'block' : 'none';
         });
