@@ -9,20 +9,20 @@ use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
-    // 📰 Affiche la liste des articles
+    //  Affiche la liste des articles
     public function index()
     {
         $posts = Post::latest()->paginate(6);
         return view('blog.articles.article', compact('posts'));
     }
 
-    // ➕ Formulaire de création d'article
+    //  Formulaire de création d'article
     public function create()
     {
         return view('blog.articles.create');
     }
 
-    // 🌐 Récupération d'un article depuis Wikipédia
+    //  Récupération d'un article depuis Wikipédia
     public function fetchFromWikipedia(Request $request)
     {
         $request->validate([
@@ -46,7 +46,7 @@ class PostController extends Controller
         return redirect()->back()->with('error', 'Impossible de récupérer l’article.');
     }
 
-    // 💾 Enregistrement d'un article
+    //  Enregistrement d'un article
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -72,20 +72,20 @@ class PostController extends Controller
         return redirect()->route('blog.posts.index')->with('success', 'Article ajouté avec succès !');
     }
 
-    // 🔍 Voir un article
+    //  Voir un article
     public function show($slug)
     {
         $post = \App\Models\Post::where('slug', $slug)->firstOrFail();
         return view('blog.articles.show', compact('post'));
     }
 
-    // ✏️ Modifier un article
+    //  Modifier un article
     public function edit(Post $post)
     {
         return view('blog.articles.edit', compact('post'));
     }
 
-    // ✅ Mise à jour
+    //  Mise à jour
     public function update(Request $request, Post $post)
     {
         $validated = $request->validate([
@@ -98,7 +98,7 @@ class PostController extends Controller
         return redirect()->route('blog.posts.index')->with('success', 'Article modifié avec succès !');
     }
 
-    // ❌ Suppression
+    // Suppression
     public function destroy(Post $post)
     {
         $post->delete();

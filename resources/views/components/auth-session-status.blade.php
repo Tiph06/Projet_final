@@ -2,7 +2,7 @@
 
 @if ($status)
 <div {{ $attributes->merge([
-        'class' => 'mb-4 font-medium text-sm text-pink-700 bg-pink-100 border border-pink-300 rounded-md px-4 py-3'
+        'class' => 'mb-4 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800 px-4 py-2 text-sm'
     ]) }}>
     {{ $status }}
 </div>

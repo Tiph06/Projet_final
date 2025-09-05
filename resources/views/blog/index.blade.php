@@ -34,6 +34,26 @@
             <p>30 à 40 % des femmes atteintes d’endométriose ont des difficultés à concevoir.</p>
         </div>
 
+        <!-- a modifier avec le bloc du dessus -->
+        <!-- Route::prefix('blog')->name('blog.')->group(function () { -->
+        <!-- // Page d’accueil du blog
+    Route::get('/', function () {
+        $posts = Post::latest()->get();
+
+        // Statistiques dynamiques
+        $stats = [
+            "1 femme sur 10 est atteinte d’endométriose dans le monde.",
+            "Le délai moyen de diagnostic est de 7 ans.",
+            "30 à 40 % des femmes atteintes d’endométriose ont des difficultés à concevoir.",
+            "Environ 2 millions de femmes en France seraient concernées.",
+            "Plus de 190 millions de personnes vivent avec l’endométriose dans le monde (source OMS)."
+        ];
+
+        $stat = $stats[array_rand($stats)];
+
+        return view('blog.index', compact('posts', 'stat'));
+    })->name('index'); // <= C’EST CETTE LIGNE QUI NOMME LA ROUTE blog.index -->
+
         <!-- A corriger! -->
         <!-- 🧁 Texte d'introduction -->
         <x-scroll-reveal

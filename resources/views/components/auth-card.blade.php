@@ -1,9 +1,13 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-pink-50">
-    <div>
+@props(['logo' => null])
+
+<div {{ $attributes->merge([
+    'class' => 'w-full max-w-md bg-white/90 backdrop-blur rounded-2xl shadow-lg ring-1 ring-pink-100 p-6 sm:p-8'
+]) }}>
+    @if ($logo)
+    <div class="flex justify-center mb-4">
         {{ $logo }}
     </div>
+    @endif
 
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden rounded-xl border border-pink-200">
-        {{ $slot }}
-    </div>
+    {{ $slot }}
 </div>

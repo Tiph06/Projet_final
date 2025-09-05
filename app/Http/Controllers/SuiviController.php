@@ -9,13 +9,13 @@ use Carbon\Carbon;
 
 class SuiviController extends Controller
 {
-    // 📝 Affichage du formulaire de suivi
+    //  Affichage du formulaire de suivi
     public function create()
     {
         return view('suivis.create');
     }
 
-    // 💾 Enregistrement du suivi
+    //  Enregistrement du suivi
     public function store(Request $request)
     {
         $request->validate([
@@ -32,7 +32,7 @@ class SuiviController extends Controller
         $localisations = $request->input('localisation'); // peut être null
         $autre = $request->input('autre_localisation');   // peut être null
 
-        // ✅ Correction ici : on initialise toujours à tableau
+        // Correction ici : on initialise toujours à tableau
         if (!is_array($localisations)) {
             $localisations = [];
         }
@@ -54,7 +54,7 @@ class SuiviController extends Controller
     }
 
 
-    // 📊 Affichage des suivis + calendrier
+    // Affichage des suivis + calendrier
     public function index()
     {
         $userId = Auth::id();

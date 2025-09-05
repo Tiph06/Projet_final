@@ -25,6 +25,7 @@
     </div>
 
     @else
+    <!-- Tableau utilisateur -->
     <h2 class="text-2xl font-bold text-gray-800 mb-6">
         👋 Bienvenue {{ ucfirst(auth()->user()->name) }} sur ton tableau de bord
     </h2>
@@ -47,6 +48,7 @@
             @endforeach
         </ul>
 
+
         <div class="text-right mt-4">
             <a href="{{ route('suivi.index') }}" class="text-fuchsia-600 hover:underline text-sm font-medium">
                 ➕ Voir tous mes suivis →
@@ -54,6 +56,42 @@
         </div>
         @endif
     </div>
+
+    @auth
+    <div class="mt-6">
+        <x-primary-button
+            x-data
+            x-on:click.prevent="$dispatch('open-modal', 'edit-user-profile')"
+            class="w-full sm:w-auto">
+            ✏️ Modifier mon profil
+        </x-primary-button>
+
+        <x-modal name="edit-user-profile" focusable>
+            <div class="p-6 space-y-8">
+                <h2 class="text-lg font-semibold text-gray-800">Modifier mon profil</h2>
+
+                @php
+                $user = auth()->user();
+                $mustVerifyEmail = $user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail;
+                $status = session('status');
+                @endphp
+
+                {{-- Infos de profil (nom, email, etc.) --}}
+                @include('profile.partials.update-profile-information-form', compact('user','mustVerifyEmail','status'))
+
+                <hr class="border-gray-200">
+
+                {{-- Changement de mot de passe --}}
+                @include('profile.partials.update-password-form')
+            </div>
+        </x-modal>
+    </div>
+
+    {{-- Zone danger (garde sa propre modale) --}}
+    <div class="mt-6">
+        @include('profile.partials.delete-user-form')
+    </div>
+    @endauth
 
     <!-- ➕ Bouton flottant Ajouter un suivi -->
     <a href="{{ route('suivi.index') }}"

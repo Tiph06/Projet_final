@@ -1,25 +1,28 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-    </div>
+    <div class="w-full max-w-md">
+        <x-auth-card>
+            {{-- Logo centré --}}
+            <x-slot name="logo">
+                <a href="/" class="flex items-center justify-center">
+                    <x-application-logo class="w-16 h-16 text-pink-500" />
+                </a>
+            </x-slot>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+            {{-- Titre --}}
+            <h1 class="text-center text-xl font-semibold text-gray-800 mb-6">
+                Mot de passe oublié <span class="text-pink-600">Info-Endo</span>
+            </h1>
 
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
+            {{-- Statut (lien envoyé) --}}
+            <x-auth-session-status class="mb-4" :status="session('status')" />
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+            <p class="text-sm text-gray-600 mb-4">
+                Indique ton adresse e-mail et nous t’enverrons un lien pour réinitialiser ton mot de passe.
+            </p>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+            <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+                @csrf
+
+                <div>
+                    <x-input-label for="email" :value="__('E-mail')" />
+                    <x-text-input id="email" name="email" type="emai

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 Route::prefix('blog')->name('blog.')->group(function () {
 
-    // 🏠 Accueil du blog avec statistiques aléatoires
+    //  Accueil du blog avec statistiques aléatoires
 
 
 

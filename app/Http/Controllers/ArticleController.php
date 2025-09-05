@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Http;
 
 class ArticleController extends Controller
 {
-    // 📘 Article statique (extrait Wikipédia)
+    //  Article statique (extrait Wikipédia)
     public function wikipedia()
     {
         $posts = Post::paginate(5); // ou paginate() si tu préfères
         return view('blog.articles.article', compact('posts'));
     }
 
-    // 📝 Article dynamique en base
+    //  Article dynamique en base
     public function show($slug, $id)
     {
         $post = Post::findOrFail($id);
