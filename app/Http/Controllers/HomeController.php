@@ -41,6 +41,6 @@ class HomeController extends Controller
         ];
 
 
-        return view('blog.index', compact('centres'));
+        return view('index', compact('centres'));
     }
 }

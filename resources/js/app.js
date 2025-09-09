@@ -1,3 +1,5 @@
+import './charts/home';
+
 // Tailwind & scripts perso (si déjà présents)
 import '../css/app.css';
 

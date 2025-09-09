@@ -13,16 +13,18 @@
     animation: fadeIn 0.8s ease-out forwards;
 }
 
-body {
-    background-color: pink;
-    
+body { 
+    background-color: #fde7f3; 
 }
 
-header {
-z-index: 999;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
+header { 
+    position: sticky; 
+    top: 0; 
+    z-index: 50; 
 }
+
+
+canvas {
+    width: 100% !important; 
+    height: 180px !important; 
+} /* pour les bar charts */
