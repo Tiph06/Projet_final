@@ -16,7 +16,7 @@
     "dependencies": {
         "alpinejs": "^3.14.0",
         "axios": "^1.8.2",
-        "chart.js": "^4.4.9",
+        "chart.js": "^4.5.0",
         "leaflet": "^1.9.4"
     }
 }

@@ -6,10 +6,7 @@
 
 <div id="{{ $id }}" {{ $attributes->merge(['class' => "w-full rounded-xl $height"]) }}></div>
 
-une string JS).
-👉 Laravel a déjà @json($centres) qui sort du vrai JSON directement utilisable.
 
-Version corrigée (sans enlever ton icône) :
 @once
 @push('scripts')
 <script>

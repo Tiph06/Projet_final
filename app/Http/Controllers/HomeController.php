@@ -40,7 +40,17 @@ class HomeController extends Controller
             ['name' => 'Centre Aix-en-Provence Spéc.',    'coords' => [43.5297, 5.4474]],
         ];
 
+        // Statistiques aléatoires à afficher sur la page d'accueil
+        $stats = [
+            "1 femme sur 10 est atteinte d’endométriose dans le monde.",
+            "Le délai moyen de diagnostic est de 7 ans.",
+            "30 à 40 % des femmes atteintes d’endométriose ont des difficultés à concevoir.",
+            "Environ 2 millions de femmes en France seraient concernées.",
+            "Plus de 190 millions de personnes vivent avec l’endométriose (source OMS)."
+        ];
+        $random_keys = array_rand($stats, 2);
+        $random_stats = [$stats[$random_keys[0]], $stats[$random_keys[1]]];
 
-        return view('index', compact('centres'));
+        return view('blog.index', compact('centres', 'random_stats'));
     }
 }

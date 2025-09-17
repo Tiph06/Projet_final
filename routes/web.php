@@ -5,7 +5,9 @@ use App\Http\Controllers\SuiviController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
-// Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return redirect()->route('blog.index');
+});
 
 Route::get('/dashboard', [ProfileController::class, 'edit'])
     ->middleware(['auth', 'verified'])

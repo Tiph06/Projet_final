@@ -13,7 +13,7 @@
         {{-- Liens Desktop --}}
         <nav class="hidden md:flex items-center gap-6">
             <a href="{{ url('/') }}" class="text-pink-900 hover:text-pink-700">Accueil</a>
-            <a href="{{ route('blog.index') }}" class="text-pink-900 hover:text-pink-700">Article</a>
+            <a href="{{ route('blog.article') }}" class="text-pink-900 hover:text-pink-700">Article</a>
             <a href="{{ route('temoignages.index') }}" class="text-pink-900 hover:text-pink-700">Témoignages</a>
 
             @auth
@@ -56,7 +56,7 @@
     <div id="mobile-menu" x-show="open" x-transition class="md:hidden border-t border-pink-300 bg-pink-100">
         <div class="space-y-1 px-4 py-3">
             <a href="{{ url('/') }}" class="block rounded-md px-3 py-2 text-pink-900 hover:bg-pink-200">Accueil</a>
-            <a href="{{ route('blog.index') }}" class="block rounded-md px-3 py-2 text-pink-900 hover:bg-pink-200">Article</a>
+            <a href="{{ route('blog.article') }}" class="block rounded-md px-3 py-2 text-pink-900 hover:bg-pink-200">Article</a>
             <a href="{{ route('temoignages.index') }}" class="block rounded-md px-3 py-2 text-pink-900 hover:bg-pink-200">Témoignages</a>
 
             @auth

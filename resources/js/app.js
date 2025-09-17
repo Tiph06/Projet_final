@@ -1,4 +1,4 @@
-import './charts/home';
+import './charts/home.js';
 
 // Tailwind & scripts perso (si déjà présents)
 import '../css/app.css';
