@@ -1,5 +1,8 @@
-import './charts/home.js';
+import './charts/home.msj';
 
+//  Chart.js (auto-register)
+import Chart from 'chart.js/auto';
+window.Chart = Chart;
 // Tailwind & scripts perso (si déjà présents)
 import '../css/app.css';
 
@@ -8,9 +11,7 @@ import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 Alpine.start();
 
-//  Chart.js (auto-register)
-import Chart from 'chart.js/auto';
-window.Chart = Chart;
+
 
 //  Leaflet (JS + CSS)
 import L from 'leaflet';

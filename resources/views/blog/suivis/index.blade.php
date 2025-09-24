@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="max-w-4xl mx-auto py-8">
-    <h2 class="text-2xl font-bold mb-4 text-fuchsia-600">Mes suivis quotidiens </h2>
+    <h2 class="text-2xl font-regular mb-4 text-fuchsia-600">Mes suivis quotidiens </h2>
 
     @if(session('success'))
     <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
@@ -136,7 +136,7 @@
     <!-- 🩷 Bouton flottant -->
     <button
         @click="openForm = true"
-        class="fixed bottom-6 right-6 bg-fuchsia-500 hover:bg-fuchsia-600 text-white text-3xl rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition transform hover:scale-110 hover:animate-bounce z-50"
+        class="fixed bottom-6 right-6 bg-fuchsia-500 hover:bg-fuchsia-600 text-white text-2xl rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition transform hover:scale-110 hover:animate-bounce z-50"
         title="Ajouter un suivi">
         +
     </button>

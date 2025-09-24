@@ -17,7 +17,7 @@
             <a href="{{ route('temoignages.index') }}" class="text-pink-900 hover:text-pink-700">Témoignages</a>
 
             @auth
-            <a href="{{ route('suivis.index') }}" class="text-pink-900 hover:text-pink-700">Mes suivis</a>
+            <a href="{{ route('suivi.index') }}" class="text-pink-900 hover:text-pink-700">Mes suivis</a>
             <a href="{{ route('dashboard') }}" class="px-3 py-1.5 rounded-md bg-pink-600 text-white hover:bg-pink-700 transition">
                 Mon compte
             </a>
@@ -60,7 +60,7 @@
             <a href="{{ route('temoignages.index') }}" class="block rounded-md px-3 py-2 text-pink-900 hover:bg-pink-200">Témoignages</a>
 
             @auth
-            <a href="{{ route('suivis.index') }}" class="block rounded-md px-3 py-2 text-pink-900 hover:bg-pink-200">Mes suivis</a>
+            <a href="{{ route('suivi.index') }}" class="block rounded-md px-3 py-2 text-pink-900 hover:bg-pink-200">Mes suivis</a>
             <a href="{{ route('dashboard') }}" class="block rounded-md px-3 py-2 bg-pink-600 text-white hover:bg-pink-700">
                 Mon compte
             </a>

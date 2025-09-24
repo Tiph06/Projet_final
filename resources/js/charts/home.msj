@@ -48,7 +48,7 @@ const chartPalette = [
     '#A7F3D0'
 ];
 
-// Helpers inchangés, mais uniformisés pour barres multicolores
+// Helpers uniformisés pour barres multicolores
 function donutDataFrom(obj) {
     return {
         labels: obj.labels,
