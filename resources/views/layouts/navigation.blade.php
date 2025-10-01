@@ -6,14 +6,15 @@
     <div class="w-full max-w-7xl mx-auto px-4 flex items-center justify-between">
         {{-- Logo + titre --}}
         <div class="flex items-center space-x-2">
-            <x-application-logo class="w-5 h-5" />
-            <h1 class="text-2xl font-bold text-pink-900">Info-Endo</h1>
+            <a href="{{ url('/') }}" class="flex items-center space-x-2">
+                <x-application-logo class="w-5 h-5" />
+                <h1 class="text-2xl font-bold text-pink-900 titre-info-endo">Info-Endo</h1>
         </div>
 
         {{-- Liens Desktop --}}
         <nav class="hidden md:flex items-center gap-6">
             <a href="{{ url('/') }}" class="text-pink-900 hover:text-pink-700">Accueil</a>
-            <a href="{{ route('blog.article') }}" class="text-pink-900 hover:text-pink-700">Article</a>
+            <a href="{{ route('blog.article') }}" class="text-pink-900 hover:text-pink-700">Articles</a>
             <a href="{{ route('temoignages.index') }}" class="text-pink-900 hover:text-pink-700">Témoignages</a>
 
             @auth
