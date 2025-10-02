@@ -75,10 +75,11 @@ class SuiviController extends Controller
         }
 
         // Suivis du mois pour le calendrier
-        $suivisDuMois = $suivis
-            ->where('date', '>=', Carbon::create($year, $month, 1)->toDateString())
-            ->where('date', '<=', Carbon::create($year, $month, 1)->endOfMonth()->toDateString())
-            ->keyBy(fn($s) => $s->date);
+        $suivisDuMois = $suivis->filter(
+            fn($s) =>
+            $s->date >= Carbon::create($year, $month, 1)->toDateString() &&
+                $s->date <= Carbon::create($year, $month, 1)->endOfMonth()->toDateString()
+        )->keyBy(fn($s) => $s->date);
 
         return view('blog.suivis.index', [
             'suivis' => $suivis,

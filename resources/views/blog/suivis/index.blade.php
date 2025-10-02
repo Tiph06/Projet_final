@@ -22,7 +22,7 @@
 
         @foreach($days as $day)
         @php
-        $suivi = $suivisDuMois[$day->toDateString()] ?? null;
+        $suivi = $suivisDuMois->get($day->toDateString());
         $isToday = $day->isToday();
 
         $etatEmoji = [
@@ -34,8 +34,14 @@
         'Énergique' => ['emoji' => '💪', 'bg' => 'bg-green-200'],
         ];
 
-        $bg = $suivi ? ($etatEmoji[$suivi->etat]['bg'] ?? 'bg-fuchsia-200') : 'bg-gray-100';
-        $emoji = $suivi ? ($etatEmoji[$suivi->etat]['emoji'] ?? '') : '';
+        if ($suivi) {
+        $etat = ucfirst(mb_strtolower(trim($suivi->etat)));
+        $bg = $etatEmoji[$etat]['bg'] ?? 'bg-fuchsia-200';
+        $emoji = $etatEmoji[$etat]['emoji'] ?? '';
+        } else {
+        $bg = 'bg-gray-100';
+        $emoji = '';
+        }
         @endphp
 
 
