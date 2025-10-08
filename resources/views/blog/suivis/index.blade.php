@@ -168,7 +168,7 @@
                 @csrf
                 <input type="hidden" name="date" value="{{ now()->toDateString() }}">
 
-                <!-- 😌 État (émoticônes radios) -->
+                <!-- État (+ émoticônes) -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Comment te sens-tu ?</label>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -260,7 +260,7 @@
                     </div>
                 </template>
 
-                <!-- 🎯 Boutons -->
+                <!--  Boutons -->
                 <div class="flex justify-end gap-2 mt-6">
                     <button type="button" @click="openForm = false"
                         class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">

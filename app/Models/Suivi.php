@@ -18,7 +18,7 @@ class Suivi extends Model
         'intensite',
     ];
 
-    // relation avec User (si tu veux l'utiliser)
+    // relation avec User 
     public function user()
     {
         return $this->belongsTo(User::class);

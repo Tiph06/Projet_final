@@ -52,39 +52,4 @@ class SuiviController extends Controller
 
         return redirect()->back()->with('success', 'Suivi enregistré avec succès ! 🌸 ');
     }
-
-
-    // Affichage des suivis + calendrier
-    public function index()
-    {
-        $userId = Auth::id();
-
-        // Suivis classiques
-        $suivis = Suivi::where('user_id', $userId)->orderByDesc('date')->get();
-
-        // 🗓 Génération des jours du mois
-        $year = now()->year;
-        $month = now()->month;
-        $start = Carbon::create($year, $month, 1);
-        $end = $start->copy()->endOfMonth();
-
-        $days = [];
-        while ($start->lte($end)) {
-            $days[] = $start->copy();
-            $start->addDay();
-        }
-
-        // Suivis du mois pour le calendrier
-        $suivisDuMois = $suivis->filter(
-            fn($s) =>
-            $s->date >= Carbon::create($year, $month, 1)->toDateString() &&
-                $s->date <= Carbon::create($year, $month, 1)->endOfMonth()->toDateString()
-        )->keyBy(fn($s) => $s->date);
-
-        return view('blog.suivis.index', [
-            'suivis' => $suivis,
-            'days' => $days,
-            'suivisDuMois' => $suivisDuMois,
-        ]);
-    }
 }
