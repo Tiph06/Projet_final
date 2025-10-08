@@ -273,13 +273,6 @@ npm audit
 | ![Vite](https://img.shields.io/badge/Vite-Bundler-646CFF?style=flat-square&logo=vite)           | Build tool & Hot reload  |
 | ![Laravel Vite](https://img.shields.io/badge/Laravel_Vite-Integration-FF2D20?style=flat-square) | Intégration Laravel/Vite |
 
-### 🧪 Développement
-
-| Outil                                                                    | Version | Rôle                  |
-| ------------------------------------------------------------------------ | ------- | --------------------- |
-| ![Pest](https://img.shields.io/badge/Pest-3.8-22C55E?style=flat-square)  | 3.8     | Framework de tests    |
-| ![Pint](https://img.shields.io/badge/Pint-1.13-0369A1?style=flat-square) | 1.13    | Formateur de code PHP |
-
 ---
 
 ## 🗄️ Configuration de la base de données
