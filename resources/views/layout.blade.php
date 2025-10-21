@@ -44,7 +44,10 @@
         </main>
 
         <footer class="mt-10 py-6 text-center text-sm text-gray-500">
-            © {{ date('Y') }} Info-Endo – Ensemble pour mieux comprendre 💛
+            © {{ date('Y') }} Info-Endo – Ensemble pour mieux comprendre 💛<br>
+            <a href="{{ route('cgu') }}" class="underline text-pink-600 hover:text-pink-700 transition">
+                Conditions Générales d’Utilisation
+            </a>
         </footer>
     </div>
 
