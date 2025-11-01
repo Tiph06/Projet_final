@@ -68,7 +68,7 @@
             <!-- Champ texte si "Autre" est coché -->
             <div x-show="autreChecked" x-transition>
                 <input type="text"
-                    name="autre_localisation"
+                    name="localisation[]"
                     placeholder="Précisez ici..."
                     class="border rounded px-3 py-2 w-full mt-1" />
             </div>

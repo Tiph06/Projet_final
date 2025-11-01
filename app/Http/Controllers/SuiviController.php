@@ -9,10 +9,37 @@ use Carbon\Carbon;
 
 class SuiviController extends Controller
 {
+    public function index()
+    {
+        // Génère la liste des jours du mois courant
+        $start = \Carbon\Carbon::now()->startOfMonth();
+        $end = \Carbon\Carbon::now()->endOfMonth();
+        $days = [];
+        for ($date = $start->copy(); $date <= $end; $date->addDay()) {
+            $days[] = $date->copy();
+        }
+
+        // Récupère les suivis du mois, groupés par jour
+        $suivisDuMois = \App\Models\Suivi::whereMonth('date', now()->month)
+            ->whereYear('date', now()->year)
+            ->where('user_id', \Auth::id())
+            ->get()
+            ->groupBy(function ($suivi) {
+                return (new \Carbon\Carbon($suivi->date))->toDateString();
+            });
+
+        // Récupère les suivis précédents pour la liste complète
+        $suivis = \App\Models\Suivi::where('user_id', \Auth::id())
+            ->orderByDesc('date')
+            ->get();
+
+        return view('blog.suivis.index', compact('days', 'suivisDuMois', 'suivis'));
+    }
+
     //  Affichage du formulaire de suivi
     public function create()
     {
-        return view('suivis.create');
+        return view('blog.suivis.create');
     }
 
     //  Enregistrement du suivi

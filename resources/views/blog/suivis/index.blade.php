@@ -22,7 +22,8 @@
 
         @foreach($days as $day)
         @php
-        $suivi = $suivisDuMois->get($day->toDateString());
+        $suiviJour = $suivisDuMois->get($day->toDateString());
+        $suivi = $suiviJour && count($suiviJour) ? $suiviJour->first() : null;
         $isToday = $day->isToday();
 
         $etatEmoji = [
@@ -43,18 +44,16 @@
         $emoji = '';
         }
         @endphp
-
-
         <div
             @if($suivi)
             x-data
             @click="$dispatch('open-modal', {
-                date: '{{ $day->translatedFormat('d F Y') }}',
-                etat: '{{ $suivi->etat }}',
-                douleurs: {{ $suivi->douleurs ? 'true' : 'false' }},
-                localisation: '{{ $suivi->localisation }}',
-                intensite: '{{ $suivi->intensite }}'
-            })"
+            date: '{{ $day->translatedFormat('d F Y') }}',
+            etat: '{{ $suivi->etat }}',
+            douleurs: {{ $suivi->douleurs ? 'true' : 'false' }},
+            localisation: '{{ $suivi->localisation }}',
+            intensite: '{{ $suivi->intensite }}'
+        })"
             @endif
             class="aspect-square p-2 border rounded {{ $bg }} {{ $isToday ? 'ring-2 ring-fuchsia-400' : '' }} {{ $suivi ? 'cursor-pointer hover:shadow-lg transition duration-150' : '' }}">
             <div class="text-sm font-bold">{{ $day->day }}</div>
@@ -63,6 +62,8 @@
             <div class="text-xs text-fuchsia-800 mt-1 truncate">
                 {{ $suivi->etat }}
             </div>
+            @else
+            <div class="text-xs text-gray-400">-</div>
             @endif
         </div>
         @endforeach
@@ -241,15 +242,9 @@
 
                         <!-- Champ libre "Autre" -->
                         <div class="mt-3" x-show="autre" x-transition>
-                            <input type="text" name="localisation" placeholder="Précisez ici..." x-model="localisation" class="w-full border rounded px-3 py-2" />
+                            <input type="text" name="localisation[]" placeholder="Précisez ici..." x-model="localisation" class="w-full border rounded px-3 py-2" />
                         </div>
 
-                        <!-- Champs cachés pour envoyer les données -->
-                        <template x-if="true">
-                            <div>
-                                <input type="hidden" name="localisation" :value="localisations.join(', ') + (autreTexte ? ', ' + autreTexte : '')">
-                            </div>
-                        </template>
 
                         <!-- 🔥 Intensité -->
                         <div class="mt-6">

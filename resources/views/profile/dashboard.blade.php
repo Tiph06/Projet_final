@@ -3,7 +3,7 @@
 @section('content')
 <div class="py-10 px-6 bg-gray-100 min-h-screen">
 
-    <!-- ✅ TOAST de bienvenue -->
+    <!-- TOAST de bienvenue -->
     <div
         x-data="{ show: true }"
         x-init="setTimeout(() => show = false, 4000)"
@@ -93,8 +93,8 @@
     </div>
     @endauth
 
-    <!-- ➕ Bouton flottant Ajouter un suivi -->
-    <a href="{{ route('suivi.index') }}"
+    <!-- Bouton flottant Ajouter un suivi -->
+    <a href="{{ route('suivi.create') }}"
         title="Commencer un nouveau suivi"
         class="fixed bottom-6 right-6 bg-fuchsia-600 hover:bg-fuchsia-700 text-white font-bold py-3 px-5 rounded-full shadow-lg transition transform hover:scale-105 hover:animate-bounce z-50 flex items-center gap-2">
         <span class="text-xl">➕</span> Ajouter un suivi
