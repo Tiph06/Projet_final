@@ -17,7 +17,7 @@ class Suivi extends Model
         'localisation',
         'intensite',
     ];
-
+    protected $casts = ['douleurs' => 'boolean', 'date' => 'date'];
     // relation avec User 
     public function user()
     {

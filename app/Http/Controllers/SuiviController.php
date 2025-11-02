@@ -6,30 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\Suivi;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class SuiviController extends Controller
 {
     public function index()
     {
         // Génère la liste des jours du mois courant
-        $start = \Carbon\Carbon::now()->startOfMonth();
-        $end = \Carbon\Carbon::now()->endOfMonth();
+        $start = Carbon::now()->startOfMonth();
+        $end   = Carbon::now()->endOfMonth();
         $days = [];
         for ($date = $start->copy(); $date <= $end; $date->addDay()) {
             $days[] = $date->copy();
         }
 
         // Récupère les suivis du mois, groupés par jour
-        $suivisDuMois = \App\Models\Suivi::whereMonth('date', now()->month)
+        $suivisDuMois = Suivi::whereMonth('date', now()->month)
             ->whereYear('date', now()->year)
-            ->where('user_id', \Auth::id())
+            ->where('user_id', Auth::id())
             ->get()
-            ->groupBy(function ($suivi) {
-                return (new \Carbon\Carbon($suivi->date))->toDateString();
-            });
+            ->groupBy(fn($suivi) => Carbon::parse($suivi->date)->toDateString());
+
 
         // Récupère les suivis précédents pour la liste complète
-        $suivis = \App\Models\Suivi::where('user_id', \Auth::id())
+        $suivis = Suivi::where('user_id', Auth::id())
             ->orderByDesc('date')
             ->get();
 
@@ -45,38 +45,42 @@ class SuiviController extends Controller
     //  Enregistrement du suivi
     public function store(Request $request)
     {
-        $request->validate([
-            'date' => 'required|date',
+        $validated = $request->validate([
+            'date' => [
+                'required',
+                'date',
+                'before_or_equal:today',
+                Rule::unique('suivis', 'date')->where(fn($q) => $q->where('user_id', Auth::id()))
+            ],
             'etat' => 'required|string|max:255',
-            'douleurs' => 'nullable|string|max:255',
+            'douleurs' => 'required|boolean',
             'localisation' => 'nullable|array', // ← array car tu peux en cocher plusieurs
-            'localisation.*' => 'string|max:255',
-            'autre_localisation' => 'nullable|string|max:255',
-            'intensite' => 'nullable|integer|min:1|max:10',
+            'localisation.*' => 'nullable|string|max:255',
+            'intensite'      => 'required_if:douleurs,1|nullable|integer|min:1|max:10',
         ]);
 
-        // Fusionner les localisations cochées + "autre"
-        $localisations = $request->input('localisation'); // peut être null
-        $autre = $request->input('autre_localisation');   // peut être null
+        //  Récupération et préparation des données
+        $validated['douleurs']     = $request->boolean('douleurs');
 
-        // Correction ici : on initialise toujours à tableau
-        if (!is_array($localisations)) {
-            $localisations = [];
-        }
+        // Nettoyage: trim + suppression des vides
+        $loc = collect($request->input('localisation', []))
+            ->map(fn($v) => is_string($v) ? trim($v) : '')
+            ->filter(fn($v) => $v !== '')
+            ->values()
+            ->all();
 
-        if (!empty($autre)) {
-            $localisations[] = $autre;
-        }
+        $validated['localisation'] = $loc ? implode(', ', $loc) : null;
 
+        // ✅ Création en réutilisant $validated
         Suivi::create([
-            'user_id' => Auth::id(),
-            'date' => $request->date,
-            'etat' => $request->etat,
-            'douleurs' => (bool) $request->douleurs,
-            'localisation' => implode(', ', $localisations),
-            'intensite' => $request->intensite,
+            'user_id'      => Auth::id(),
+            'date'         => $validated['date'],         // <- from validated
+            'etat'         => $validated['etat'],
+            'douleurs'     => $validated['douleurs'],
+            'localisation' => $validated['localisation'],
+            'intensite'    => $validated['intensite'] ?? null,
         ]);
 
-        return redirect()->back()->with('success', 'Suivi enregistré avec succès ! 🌸 ');
+        return to_route('suivi.index')->with('success', 'Suivi enregistré avec succès ! 🌸');
     }
 }

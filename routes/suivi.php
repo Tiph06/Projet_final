@@ -15,7 +15,7 @@ Route::middleware(['auth'])->prefix('suivi')->name('suivi.')->group(function () 
     Route::get('/create', [SuiviController::class, 'create'])->name('create');
 
     // 💾 Enregistrement d’un suivi
-    Route::post('/', [SuiviController::class, 'store'])->name('store');
+    Route::post('/', [SuiviController::class, 'store'])->name('store')->middleware('auth');
 
     // // 📅 Calendrier mensuel des suivis
     // Route::get('/calendar', [SuiviController::class, 'calendar'])->name('calendar');
