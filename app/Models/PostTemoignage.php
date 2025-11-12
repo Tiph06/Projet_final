@@ -9,5 +9,9 @@ class PostTemoignage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['categorie', 'content', 'auteur'];
+    protected $fillable = [
+        'categorie',
+        'content',
+        'auteur'
+    ];
 }
