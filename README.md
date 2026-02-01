@@ -6,6 +6,7 @@
 ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 **Guide complet pour installer et configurer l'application Laravel 12 sur Windows**
 
@@ -36,21 +37,21 @@ Avec **XAMPP** ou **WampServer**, ces extensions sont généralement incluses :
 <details>
 <summary>📝 Liste complète des extensions PHP</summary>
 
--   ✅ BCMath PHP Extension
--   ✅ Ctype PHP Extension
--   ✅ cURL PHP Extension
--   ✅ DOM PHP Extension
--   ✅ Fileinfo PHP Extension
--   ✅ Filter PHP Extension
--   ✅ Hash PHP Extension
--   ✅ Mbstring PHP Extension
--   ✅ OpenSSL PHP Extension
--   ✅ PCRE PHP Extension
--   ✅ PDO PHP Extension
--   ✅ Session PHP Extension
--   ✅ Tokenizer PHP Extension
--   ✅ XML PHP Extension
--   ✅ ZIP PHP Extension
+- ✅ BCMath PHP Extension
+- ✅ Ctype PHP Extension
+- ✅ cURL PHP Extension
+- ✅ DOM PHP Extension
+- ✅ Fileinfo PHP Extension
+- ✅ Filter PHP Extension
+- ✅ Hash PHP Extension
+- ✅ Mbstring PHP Extension
+- ✅ OpenSSL PHP Extension
+- ✅ PCRE PHP Extension
+- ✅ PDO PHP Extension
+- ✅ Session PHP Extension
+- ✅ Tokenizer PHP Extension
+- ✅ XML PHP Extension
+- ✅ ZIP PHP Extension
 
 </details>
 
@@ -131,6 +132,26 @@ php artisan migrate --seed
 
 ---
 
+## 🐳 Lancement avec Docker
+
+> 💡 Alternative pour lancer le projet dans un environnement isolé, sans installer PHP, Node ou Composer localement.
+
+### ▶️ Démarrer les conteneurs
+
+```powershell
+docker compose up -d
+```
+
+### ⏹️ Arrêter les conteneurs
+
+```powershell
+docker compose down
+```
+
+> Une fois les conteneurs démarrés, l’application est accessible selon la configuration définie dans le `docker-compose.yml`.
+
+---
+
 ## 🚀 Lancement de l'application
 
 ### ✅ **Méthode recommandée** : Script de développement intégré
@@ -143,9 +164,9 @@ composer run dev
 
 > **🎯 Cette commande unique lance :**
 >
-> -   🌐 Serveur Laravel (`http://localhost:8000`)
-> -   ⚡ Worker de queue pour les tâches asynchrones
-> -   🎨 Vite pour la compilation des assets en temps réel
+> - 🌐 Serveur Laravel (`http://localhost:8000`)
+> - ⚡ Worker de queue pour les tâches asynchrones
+> - 🎨 Vite pour la compilation des assets en temps réel
 
 ### 🔄 Méthode manuelle (si besoin)
 
@@ -397,7 +418,7 @@ composer run dev
 
 ---
 
-**Made with ❤️by une développeuse passionnée.**
+**Made with ❤️ by une développeuse passionnée.**
 
 ![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=projet_final_setup)
 
