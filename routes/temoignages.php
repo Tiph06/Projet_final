@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostTemoignageController;
-use App\Models\PostTemoignage;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\LikeController;
 
 // 📢 Routes pour les témoignages
 Route::prefix('temoignage')->name('temoignages.')->group(function () {
@@ -33,4 +33,9 @@ Route::prefix('temoignage')->name('temoignages.')->group(function () {
     // ❌ Suppression d’un témoignage
     Route::delete('/{id}', [PostTemoignageController::class, 'destroy'])
         ->name('destroy');
+
+    // 🔁 Like/unlike d’un témoignage
+    Route::post('/{temoignage}/like', [LikeController::class, 'toggle'])
+        ->middleware('auth')
+        ->name('like');
 });

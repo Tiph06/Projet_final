@@ -20,9 +20,11 @@
     <button onclick="filterCategory('Symptômes')" class="filter-btn bg-pink-100 text-pink-700 px-3 py-1 rounded">🔥 Symptômes</button>
 </div>
 
+{{-- Liste des témoignages --}}
 <div id="temoignages-list" class="space-y-6">
     @foreach ($temoignages as $post)
-    <div class="bg-white p-4 rounded shadow" data-category="{{ $post->categorie }}">
+    <div class="bg-white p-4 rounded shadow relative" data-category="{{ $post->categorie }}">
+        {{-- Catégorie --}}
         <span class="text-sm font-semibold text-pink-600 uppercase block mb-1">
             {{ $post->categorie === 'Diagnostique' ? '🩺 Diagnostique' : '🔥 Symptômes' }}
         </span>
@@ -36,12 +38,37 @@
                 Lire la suite
             </span>
         </p>
-        <form action="{{ route('temoignages.destroy', $post->id) }}" method="POST"
-            onsubmit="return confirm('Supprimer ce témoignage ?');" class="inline-block ml-2">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="text-red-500 hover:text-red-700">Supprimer</button>
-        </form>
+        {{-- ✅ LIKE --}}
+        <div class="absolute bottom-3 right-3">
+            @auth
+            <form action="{{ route('temoignages.like', ['temoignage' => $post->id]) }}" method="POST">
+                @csrf
+                <button type="submit" class="flex items-center gap-1 hover:scale-110 transition">
+                    <img src="{{ asset('images/likes.png') }}" alt="Like" class="w-6 h-6">
+                    <span class="text-xs text-gray-600">{{ $post->likes_count ?? 0 }}</span>
+                </button>
+            </form>
+            @else
+            <div class="flex items-center gap-1 text-gray-400">
+                <img src="{{ asset('images/likes.png') }}" alt="Like" class="w-6 h-6 opacity-50">
+                <span class="text-xs">{{ $post->likes_count ?? 0 }}</span>
+            </div>
+            @endauth
+        </div>
+
+        {{-- bouton de suppression --}}
+        @can('delete', $post)
+        <div class="mt-2 flex justify-end">
+            <form action="{{ route('temoignages.destroy', $post->id) }}" method="POST"
+                onsubmit="return confirm('Supprimer ce témoignage ?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="text-red-500 hover:text-red-700 text-sm">
+                    Supprimer
+                </button>
+            </form>
+        </div>
+        @endcan
     </div>
     @endforeach
 </div>

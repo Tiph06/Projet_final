@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -25,7 +26,8 @@ class ProfileController extends Controller
         ];
 
         if (!$user->is_admin) {
-            $data['suiviEtats'] = \App\Models\Suivi::where('user_id', $user->id)
+            $userWithSuivis = User::with('suivis')->find($user->id);
+            $data['suiviEtats'] = $userWithSuivis->suivis()
                 ->latest()
                 ->take(5)
                 ->get();

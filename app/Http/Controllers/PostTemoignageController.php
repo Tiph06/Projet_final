@@ -38,6 +38,7 @@ class PostTemoignageController extends Controller
         $post->categorie = $validated['categorie'];
         $post->content = $validated['content'];
         $post->auteur = $auteur;
+        $post->user_id = Auth::id();
         $post->save();
 
         return redirect()->route('temoignages.index')->with('success', 'Témoignage envoyé avec succès 💌');

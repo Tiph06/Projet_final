@@ -19,6 +19,8 @@ return new class extends Migration
             $table->boolean('douleurs')->default(false);
             $table->string('localisation')->nullable();
             $table->tinyInteger('intensite')->nullable();
+            $table->unique(['user_id', 'date']); //  Contrainte : 1 suivi/jour/user
+            $table->index('user_id'); // Index pour améliorer les performances des requêtes
             $table->timestamps();
         });
     }
