@@ -2,18 +2,15 @@
 
 @section('content')
 
-{{-- ✅ Message de succès --}}
-@if (session('success'))
-<div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
-    {!! session('success') !!}
-</div>
-@endif
-
-{{-- 🚨 Affichage des erreurs de validation --}}
-
-@if($errors->any())
-<div class="bg-red-50 text-red-700 px-3 py-2 rounded mb-3 text-sm">
-    @foreach($errors->all() as $err) <div>• {{ $err }}</div> @endforeach
+{{-- ✅ ALERTE ERREUR depuis le contrôleur --}}
+@if(session('error'))
+<div class="mb-6 p-4 bg-red-50 border-l-4 border-red-400 rounded-lg">
+    <div class="flex">
+        <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </svg>
+        <span class="font-semibold">{{ session('error') }}</span>
+    </div>
 </div>
 @endif
 {{-- 📝 Formulaire de suivi --}}

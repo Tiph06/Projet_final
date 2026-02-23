@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Suivi;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 
 class SuiviController extends Controller
@@ -16,6 +17,7 @@ class SuiviController extends Controller
         $start = Carbon::now()->startOfMonth();
         $end   = Carbon::now()->endOfMonth();
         $days = [];
+
         for ($date = $start->copy(); $date <= $end; $date->addDay()) {
             $days[] = $date->copy();
         }
@@ -27,7 +29,6 @@ class SuiviController extends Controller
             ->get()
             ->groupBy(fn($suivi) => Carbon::parse($suivi->date)->toDateString());
 
-
         // Récupère les suivis précédents pour la liste complète
         $suivis = Suivi::where('user_id', Auth::id())
             ->orderByDesc('date')
@@ -36,15 +37,31 @@ class SuiviController extends Controller
         return view('blog.suivis.index', compact('days', 'suivisDuMois', 'suivis'));
     }
 
-    //  Affichage du formulaire de suivi
+    // Affichage du formulaire de suivi
     public function create()
     {
-        return view('blog.suivis.create');
+        // ✅ VÉRIFICATION SANS relation User (directement sur Suivi)
+        $today = now()->format('Y-m-d');
+        $existingSuivi = Suivi::where('user_id', Auth::id())
+            ->whereDate('date', $today)
+            ->first();
+
+        return view('blog.suivis.create', compact('existingSuivi'));
     }
 
-    //  Enregistrement du suivi
     public function store(Request $request)
     {
+        // ✅ VÉRIFICATION : Doublon pour cette date ?
+        $existingSuivi = Suivi::where('user_id', Auth::id())
+            ->where('date', $request->input('date'))
+            ->first();
+
+        if ($existingSuivi) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Vous avez déjà enregistré un suivi pour cette date.');
+        }
+
         $validated = $request->validate([
             'date' => [
                 'required',
@@ -54,33 +71,28 @@ class SuiviController extends Controller
             ],
             'etat' => 'required|string|max:255',
             'douleurs' => 'required|boolean',
-            'localisation' => 'nullable|array', // ← array car tu peux en cocher plusieurs
+            'localisation' => 'nullable|array',
             'localisation.*' => 'nullable|string|max:255',
-            'intensite'      => 'required_if:douleurs,1|nullable|integer|min:1|max:10',
+            'intensite' => 'required_if:douleurs,1|nullable|integer|min:1|max:10',
         ]);
 
-        //  Récupération et préparation des données
-        $validated['douleurs']     = $request->boolean('douleurs');
-
-        // Nettoyage: trim + suppression des vides
+        $validated['douleurs'] = $request->boolean('douleurs');
         $loc = collect($request->input('localisation', []))
             ->map(fn($v) => is_string($v) ? trim($v) : '')
             ->filter(fn($v) => $v !== '')
             ->values()
             ->all();
-
         $validated['localisation'] = $loc ? implode(', ', $loc) : null;
 
-        // ✅ Création en réutilisant $validated
         Suivi::create([
-            'user_id'      => Auth::id(),
-            'date'         => $validated['date'],         // <- from validated
-            'etat'         => $validated['etat'],
-            'douleurs'     => $validated['douleurs'],
+            'user_id' => Auth::id(),
+            'date' => $validated['date'],
+            'etat' => $validated['etat'],
+            'douleurs' => $validated['douleurs'],
             'localisation' => $validated['localisation'],
-            'intensite'    => $validated['intensite'] ?? null,
+            'intensite' => $validated['intensite'] ?? null,
         ]);
 
-        return to_route('suivi.index')->with('success', 'Suivi enregistré avec succès ! 🌸');
+        return to_route('suivi.index')->with('success', 'Suivi enregistré ! 🌸');
     }
 }

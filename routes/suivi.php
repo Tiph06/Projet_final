@@ -6,8 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // 📌 Routes protégées par authentification
-Route::middleware(['auth'])->prefix('suivi')->name('suivi.')->group(function () {
-
+Route::prefix('suivi')->name('suivi.')->middleware('auth')->group(function () {
     // 🏠 Tableau de bord des suivis
     Route::get('/', [SuiviController::class, 'index'])->name('index');
 

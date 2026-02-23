@@ -91,7 +91,7 @@
 
 </div>
 <!-- Modale invisible -->
-<div id="modal" class="fixed inset-0 bg-rose-300 bg-opacity-20 flex items-center justify-center z-50 hidden">
+<div id="modal" class="fixed inset-0 bg-rose-300 bg-opacity-20 items-center justify-center z-50 hidden" style="display: none;">
     <div class="bg-white rounded-lg p-6 w-full max-w-xl relative">
         <button id="closeModal" class="absolute top-2 right-2 text-gray-500 hover:text-red-600">
             &times;
