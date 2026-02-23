@@ -12,6 +12,13 @@ class PostTemoignage extends Model
     protected $fillable = [
         'categorie',
         'content',
-        'auteur'
+        'auteur',
+        'user_id'
     ];
+
+    // ⚠️ NOUVELLE RELATION : belongsTo vers User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

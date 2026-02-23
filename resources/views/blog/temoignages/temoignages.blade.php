@@ -36,12 +36,14 @@
                 Lire la suite
             </span>
         </p>
+        @if(Auth::check() && (Auth::user()->is_admin || $post->user_id === Auth::id()))
         <form action="{{ route('temoignages.destroy', $post->id) }}" method="POST"
-            onsubmit="return confirm('Supprimer ce témoignage ?');" class="inline-block ml-2">
+            onsubmit="return confirm('Supprimer ce témoignage ?')" class="inline-block ml-2">
             @csrf
             @method('DELETE')
-            <button type="submit" class="text-red-500 hover:text-red-700">Supprimer</button>
+            <button type="submit" class="text-red-500 hover:text-red-700">🗑️ Supprimer</button>
         </form>
+        @endif
     </div>
     @endforeach
 </div>

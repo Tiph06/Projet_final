@@ -38,6 +38,7 @@ class PostTemoignageController extends Controller
         $post->categorie = $validated['categorie'];
         $post->content = $validated['content'];
         $post->auteur = $auteur;
+        $post->user_id = Auth::id(); // ⚠️ AJOUT IMPORTANT : associe le témoignage au user connecté
         $post->save();
 
         return redirect()->route('temoignages.index')->with('success', 'Témoignage envoyé avec succès 💌');
@@ -47,8 +48,14 @@ class PostTemoignageController extends Controller
     public function destroy($id)
     {
         $post = PostTemoignage::findOrFail($id);
-        $post->delete();
 
-        return redirect()->route('temoignages.index')->with('success', 'Témoignage supprimé 🗑️');
+        // Vérifier si l'utilisateur est admin OU s'il est l'auteur du témoignage
+        if (Auth::user()->is_admin || $post->user_id === Auth::id()) {
+            $post->delete();
+            return redirect()->route('temoignages.index')->with('success', 'Témoignage supprimé 🗑️');
+        }
+
+        // Si ni admin ni auteur, refuser l'accès
+        abort(403, 'Vous n\'êtes pas autorisé à supprimer ce témoignage.');
     }
 }
