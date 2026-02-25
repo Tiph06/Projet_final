@@ -1,0 +1,8 @@
+.git
+node_modules
+vendor
+public/storage
+storage/*.key
+.gitignore
+npm-debug.log
+yarn-error.log
